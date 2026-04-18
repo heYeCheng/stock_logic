@@ -91,11 +91,13 @@
 - 市场层与逻辑层数据隔离不严格
 
 **数据源优先级**：
-1. efinance（东方财富，最高优先级）
+1. tushare（Pro API，需 token）
+2. efinance（东方财富，最高优先级）
 2. akshare（东方财富爬虫）
-3. tushare（Pro API，需 token）
 4. pytdx（通达信行情）
 5. baostock（证券宝）
+6. 投研萝卜
+7. 雪球
 
 ## Constraints
 
