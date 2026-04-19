@@ -565,3 +565,85 @@ class HoldDecision(Base):
 
     def __repr__(self) -> str:
         return f"<HoldDecision(id={self.id}, stock_code={self.stock_code}, date={self.snapshot_date}, action={self.action})>"
+
+
+class RecommendationMarker(Base):
+    """Stock recommendation marker and rationale.
+
+    Table: recommendation_markers
+
+    EXEC-03: Stock Recommendation Markers
+    Classifies stock recommendations with rationale (逻辑受益股/关联受益股/情绪跟风股).
+
+    Attributes:
+        id: Primary key
+        stock_code: Stock code (e.g., "000001.SZ")
+        snapshot_date: Date of marker snapshot
+        marker: Marker classification (逻辑受益股/关联受益股/情绪跟风股)
+        marker_reason: Explanation of classification rationale
+        logic_score: Logic layer score (0.0000-1.0000)
+        market_score: Market layer score (0.0000-1.0000)
+        exposure_coefficient: Exposure coefficient (0.0000-1.0000)
+    """
+
+    __tablename__ = "recommendation_markers"
+
+    id = Column(Integer, primary_key=True, autoincrement=True, comment="主键 ID")
+    stock_code = Column(String(20), nullable=False, index=True, comment="股票代码 (e.g., 000001.SZ)")
+    snapshot_date = Column(Date, nullable=False, index=True, comment="快照日期")
+
+    # Marker classification
+    marker = Column(String(50), nullable=True, comment="标记分类 (逻辑受益股/关联受益股/情绪跟风股)")
+    marker_reason = Column(Text, nullable=True, comment="分类理由说明")
+
+    # Score snapshots
+    logic_score = Column(Numeric(7, 4), nullable=True, comment="逻辑分数 (0.0000-1.0000)")
+    market_score = Column(Numeric(7, 4), nullable=True, comment="市场分数 (0.0000-1.0000)")
+    exposure_coefficient = Column(Numeric(7, 4), nullable=True, comment="暴露系数 (0.0000-1.0000)")
+
+    created_at = Column(DateTime, nullable=False, default=func.now(), comment="创建时间")
+
+    __table_args__ = (
+        UniqueConstraint("stock_code", "snapshot_date", name="uq_recommendation_markers_code_date"),
+        Index("ix_recommendation_markers_stock_code", "stock_code"),
+        Index("ix_recommendation_markers_date", "snapshot_date"),
+    )
+
+    def __repr__(self) -> str:
+        return f"<RecommendationMarker(id={self.id}, stock_code={self.stock_code}, date={self.snapshot_date}, marker={self.marker})>"
+
+
+class PositionRecommendation(Base):
+    """Daily position recommendation for a stock.
+
+    Table: position_recommendations
+
+    EXEC-01: Continuous Position Function
+    Stores position recommendations with macro and sector overlays.
+    """
+
+    __tablename__ = "position_recommendations"
+
+    id = Column(Integer, primary_key=True, autoincrement=True, comment="主键 ID")
+    stock_code = Column(String(20), nullable=False, index=True, comment="股票代码 (e.g., 000001.SZ)")
+    snapshot_date = Column(Date, nullable=False, index=True, comment="快照日期")
+
+    # Score inputs
+    composite_score = Column(Numeric(7, 4), nullable=True, comment="综合分数 (0.0000-1.0000)")
+    macro_multiplier = Column(Numeric(5, 2), nullable=True, default=Decimal("1.00"), comment="宏观乘数 (0.50-1.50)")
+    sector_state = Column(String(20), nullable=True, comment="板块状态 (weak/normal/overheated)")
+
+    # Position output
+    recommended_position = Column(Numeric(7, 4), nullable=True, comment="推荐仓位 (0.0000-1.0000)")
+    position_tier = Column(String(20), nullable=True, comment="仓位层级 (空仓/轻仓/中等/重仓/满仓)")
+
+    created_at = Column(DateTime, nullable=False, default=func.now(), comment="创建时间")
+
+    __table_args__ = (
+        UniqueConstraint("stock_code", "snapshot_date", name="uq_position_recommendations_code_date"),
+        Index("ix_position_recommendations_stock_code", "stock_code"),
+        Index("ix_position_recommendations_date", "snapshot_date"),
+    )
+
+    def __repr__(self) -> str:
+        return f"<PositionRecommendation(id={self.id}, stock_code={self.stock_code}, date={self.snapshot_date}, position={self.recommended_position}, tier={self.position_tier})>"

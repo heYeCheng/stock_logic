@@ -154,7 +154,13 @@ Plans:
   3. Stock recommendation markers applied (逻辑受益股/关联受益股/情绪跟风股)
   4. Stop-loss and hold decision rules are applied consistently
 
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] EXEC-01-PLAN.md — Continuous position function with macro and sector overlays
+- [ ] EXEC-02-PLAN.md — A-share trading constraints (limit up/down, suspension, chasing risk)
+- [ ] EXEC-03-PLAN.md — Stock recommendation markers (逻辑受益股/关联受益股/情绪跟风股)
+- [ ] EXEC-04-PLAN.md — Stop-loss and hold decision rules
 
 ---
 
@@ -172,7 +178,13 @@ Plans:
   3. Users can manually override strength, affiliation strength, and other markers
   4. YAML anchor configuration is editable via web interface with version control
 
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 06-01-PLAN.md — FastAPI REST API (recommendations, stock details, macro overview)
+- [ ] 06-02-PLAN.md — React frontend (stock cards, radar charts, logic summaries)
+- [ ] 06-03-PLAN.md — Manual override interface (strength, affiliation strength)
+- [ ] 06-04-PLAN.md — YAML config editor with version control
 
 **UI hint**: yes
 
