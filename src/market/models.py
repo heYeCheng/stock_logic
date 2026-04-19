@@ -494,3 +494,37 @@ class StockCatalyst(Base):
 
     def __repr__(self) -> str:
         return f"<StockCatalyst(id={self.id}, stock_code={self.stock_code}, date={self.snapshot_date}, level={self.catalyst_level})>"
+
+
+class ConstraintCheck(Base):
+    """Daily constraint check results for a stock.
+
+    Table: constraint_checks
+    EXEC-02: A-Share Trading Constraints
+    Stores daily constraint check results including limit status, suspension, and chasing risk.
+    """
+
+    __tablename__ = "constraint_checks"
+
+    id = Column(Integer, primary_key=True, autoincrement=True, comment="主键 ID")
+    stock_code = Column(String(20), nullable=False, index=True, comment="股票代码")
+    snapshot_date = Column(Date, nullable=False, index=True, comment="快照日期")
+
+    # Constraint check results
+    limit_status = Column(String(20), nullable=True, comment="涨跌停状态 (limit_up/limit_down/normal)")
+    is_suspended = Column(Boolean, nullable=True, default=False, comment="是否停牌")
+    chasing_risk_level = Column(String(20), nullable=True, comment="追高风险级别 (high/medium/low)")
+
+    # Applied constraints (JSON array stored as Text)
+    applied_constraints = Column(String(500), nullable=True, comment="应用的约束列表 (JSON 数组)")
+
+    created_at = Column(DateTime, nullable=False, default=func.now(), comment="创建时间")
+
+    __table_args__ = (
+        UniqueConstraint("stock_code", "snapshot_date", name="uq_constraint_checks_stock_date"),
+        Index("ix_constraint_checks_stock_code", "stock_code"),
+        Index("ix_constraint_checks_date", "snapshot_date"),
+    )
+
+    def __repr__(self) -> str:
+        return f"<ConstraintCheck(id={self.id}, stock_code={self.stock_code}, date={self.snapshot_date}, limit_status={self.limit_status}, suspended={self.is_suspended})>"
