@@ -12,7 +12,7 @@
 - [x] **Phase 1: Infrastructure** - Database, data sources, scheduling foundation
 - [x] **Phase 2: Macro Environment** - L0 macro scoring and regime detection
 - [x] **Phase 3: Logic Layer** - L1 event scorecard and LLM logic extraction - 12/12 tests pass
-- [ ] **Phase 4: Market Layer** - L2 sector market radar and L3 stock scoring
+- [x] **Phase 4: Market Layer** - L2 sector market radar and L3 stock scoring - 13/13 plans complete
 - [ ] **Phase 5: Execution** - L4 position function and trading constraints
 - [ ] **Phase 6: Web UI** - FastAPI REST API + React dashboard
 

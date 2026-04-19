@@ -5,13 +5,13 @@ milestone_name: milestone
 status: executing
 stopped_at: null
 last_updated: "2026-04-19T08:25:00Z"
-last_activity: 2026-04-19 — STOCK-05 (Stock Market Radar) completed
+last_activity: 2026-04-19 — Phase 4 Market Layer complete (13/13 plans)
 progress:
   total_phases: 6
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 48
-  completed_plans: 21
-  percent: 43
+  completed_plans: 33
+  percent: 69
 ---
 
 # Project State
@@ -22,7 +22,9 @@ See: .planning/PROJECT.md (updated 2026-04-19)
 
 **Core value:** 逻辑真值独立于价格 —— 通过事件计分板规则引擎计算逻辑强度，LLM 识别逻辑与提取事件但不打分；市场认知仅用量价数据，两者严格隔离，确保决策可解释、可回测。
 
-**Current focus:** Phase 3 (Logic Layer)
+**Current focus:** Phase 4 (Market Layer) - Complete
+
+**Next phase:** Phase 5 (Execution) - Position function and trading constraints
 
 ## Current Position
 
@@ -48,7 +50,7 @@ Progress: [████████████░] 43% (21/48 plans complete)
 | 1. Infrastructure | 4/4 | 4 | ✅ Complete |
 | 2. Macro Environment | 4/4 | 4 | ✅ Complete |
 | 3. Logic Layer | 6/6 | 6 | ✅ Complete |
-| 4. Market Layer | 1/13 | 13 | STOCK-05 complete |
+| 4. Market Layer | 13/13 | 13 | ✅ Complete |
 | 5. Execution | 0/4 | 4 | - |
 | 6. Web UI | 0/4 | 4 | - |
 

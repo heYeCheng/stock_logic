@@ -73,11 +73,13 @@ class TestKeywordGeneratorPromptBuilding:
         )
 
         # Should only include first 10 (股票 0 to 股票 9)
-        # Note: Chinese characters are present in the prompt
-        assert "股票" in prompt
-        assert "股票 8" in prompt
-        assert "股票 9" in prompt
-        assert "股票 10" not in prompt
+        # Verify all included stocks are present
+        for i in range(10):
+            assert f"股票{i}" in prompt, f"股票{i} should be in prompt"
+
+        # Verify stocks 10-14 are NOT included
+        for i in range(10, 15):
+            assert f"股票{i}" not in prompt, f"股票{i} should NOT be in prompt"
 
 
 class TestKeywordGeneratorJsonParsing:
@@ -244,12 +246,13 @@ class TestSectorKeywordService:
         mock_session.scalar_one_or_none = AsyncMock()
         mock_session.close = AsyncMock()
 
-        # Create async context manager mock
+        # Create async context manager mock for the session
         async_session_context = AsyncMock()
         async_session_context.__aenter__ = AsyncMock(return_value=mock_session)
         async_session_context.__aexit__ = AsyncMock(return_value=None)
 
-        mock_maker = AsyncMock(return_value=async_session_context)
+        # Mock the session_maker itself as an async context manager
+        mock_maker = MagicMock(return_value=async_session_context)
         return mock_maker, mock_session
 
     @pytest.fixture
@@ -267,7 +270,7 @@ class TestSectorKeywordService:
 
         keywords = ["关键词 1", "关键词 2", "关键词 3", "关键词 4", "关键词 5"]
 
-        with patch('src.market.keyword_generator.async_session_maker', mock_maker):
+        with patch.object(service, '_get_session', return_value=mock_session):
             result = await service.save_keywords(
                 sector_id="sector_5g",
                 sector_name="5G 概念",
@@ -292,7 +295,7 @@ class TestSectorKeywordService:
 
         keywords = ["新关键词 1", "新关键词 2"]
 
-        with patch('src.market.keyword_generator.async_session_maker', mock_maker):
+        with patch.object(service, '_get_session', return_value=mock_session):
             result = await service.save_keywords(
                 sector_id="sector_5g",
                 sector_name="5G 概念",
@@ -309,7 +312,7 @@ class TestSectorKeywordService:
         """Test saving empty keywords returns False."""
         mock_maker, mock_session = mock_session_maker
 
-        with patch('src.market.keyword_generator.async_session_maker', mock_maker):
+        with patch.object(service, '_get_session', return_value=mock_session):
             result = await service.save_keywords(
                 sector_id="sector_empty",
                 sector_name="空板块",

@@ -208,6 +208,10 @@ class SectorKeywordService:
     - Update existing keywords
     """
 
+    async def _get_session(self) -> AsyncSession:
+        """Get async session. Separated for testability."""
+        return async_session_maker()
+
     async def get_sectors_without_keywords(self) -> List[dict]:
         """Get list of sectors that need keywords generated.
 
