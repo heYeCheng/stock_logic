@@ -382,6 +382,7 @@ class StockLogicScore(Base):
         snapshot_date: Date of score snapshot
         logic_score: Aggregated logic score (0.0000-1.0000)
         total_exposure: Total exposure coefficient across all logics
+        contributing_logics: Count of logics with exposure > 0
     """
 
     __tablename__ = "stock_logic_scores"
@@ -395,6 +396,9 @@ class StockLogicScore(Base):
 
     # Total exposure (for debugging/analysis)
     total_exposure = Column(Numeric(7, 4), nullable=True, comment="总暴露系数 (0.0000+)")
+
+    # Contributing logics count
+    contributing_logics = Column(Integer, nullable=True, default=0, comment="贡献逻辑数量 (exposure > 0 的逻辑数量)")
 
     created_at = Column(DateTime, nullable=False, default=func.now(), comment="创建时间")
 
@@ -446,3 +450,47 @@ class SectorKeywords(Base):
 
     def __repr__(self) -> str:
         return f"<SectorKeywords(id={self.id}, sector_id={self.sector_id}, sector_name={self.sector_name}, keywords={self.keywords})>"
+
+
+class StockCatalyst(Base):
+    """Stock catalyst marker - classifies catalyst strength (strong/medium/none).
+
+    Table: stock_catalysts
+
+    STOCK-06: Catalyst Markers
+    Determines catalyst level based on recent high-importance events affecting the stock.
+
+    Attributes:
+        id: Primary key
+        stock_code: Stock code (e.g., "000001.SZ")
+        snapshot_date: Date of catalyst snapshot
+        catalyst_level: Catalyst level ("strong"/"medium"/"none")
+        event_count: Total count of recent events affecting this stock
+        high_importance_count: Count of high-importance events
+        description: Brief description of catalyst drivers
+    """
+
+    __tablename__ = "stock_catalysts"
+
+    id = Column(Integer, primary_key=True, autoincrement=True, comment="主键 ID")
+    stock_code = Column(String(20), nullable=False, index=True, comment="股票代码 (e.g., 000001.SZ)")
+    snapshot_date = Column(Date, nullable=False, index=True, comment="快照日期")
+
+    # Catalyst classification
+    catalyst_level = Column(String(20), nullable=True, comment="催化剂级别 (strong/medium/none)")
+    event_count = Column(Integer, nullable=True, comment="近期事件总数")
+    high_importance_count = Column(Integer, nullable=True, comment="高重要性事件数量")
+
+    # Description
+    description = Column(String(500), nullable=True, comment="催化剂描述")
+
+    created_at = Column(DateTime, nullable=False, default=func.now(), comment="创建时间")
+
+    __table_args__ = (
+        UniqueConstraint("stock_code", "snapshot_date", name="uq_stock_catalysts_code_date"),
+        Index("ix_stock_catalysts_stock_code", "stock_code"),
+        Index("ix_stock_catalysts_date", "snapshot_date"),
+    )
+
+    def __repr__(self) -> str:
+        return f"<StockCatalyst(id={self.id}, stock_code={self.stock_code}, date={self.snapshot_date}, level={self.catalyst_level})>"
