@@ -11,7 +11,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = '20260419_235000'
-down_revision = '20260419_234500'
+down_revision = ('add_constraint_checks_table', '20260419_233000', '20260419_234500')
 branch_labels = None
 depends_on = None
 
