@@ -5,7 +5,7 @@ milestone_name: milestone
 status: executing
 stopped_at: null
 last_updated: "2026-04-19T08:25:00Z"
-last_activity: 2026-04-19 — Phase 5 Execution complete (4/4 plans: EXEC-01 to EXEC-04)
+last_activity: 2026-04-19 — Phase 6 Web UI plans created (4 plans: 06-01 to 06-04)
 progress:
   total_phases: 6
   completed_phases: 5
@@ -22,16 +22,16 @@ See: .planning/PROJECT.md (updated 2026-04-19)
 
 **Core value:** 逻辑真值独立于价格 —— 通过事件计分板规则引擎计算逻辑强度，LLM 识别逻辑与提取事件但不打分；市场认知仅用量价数据，两者严格隔离，确保决策可解释、可回测。
 
-**Current focus:** Phase 5 (Execution) - Complete
+**Current focus:** Phase 6 (Web UI) - Plans Created
 
-**Next phase:** Phase 6 (Web UI) - FastAPI + React dashboard
+**Next phase:** Phase 6 Execution
 
 ## Current Position
 
-Phase: 5 of 6 (Execution) - Complete
-Plan: 4/4 complete
-Status: Ready for Phase 6 (Web UI)
-Last activity: 2026-04-19 — Phase 5 Execution complete (position function, constraints, markers, stop-loss)
+Phase: 6 of 6 (Web UI) - Plans Created
+Plan: 4/4 plans ready
+Status: Ready for Phase 6 execution
+Last activity: 2026-04-19 — Phase 6 Web UI plans created (FastAPI API, React frontend, manual override, YAML config)
 
 Progress: [██████████████] 71% (37/52 plans complete)
 
@@ -52,7 +52,7 @@ Progress: [██████████████] 71% (37/52 plans complete
 | 3. Logic Layer | 6/6 | 6 | ✅ Complete |
 | 4. Market Layer | 13/13 | 13 | ✅ Complete |
 | 5. Execution | 4/4 | 4 | ✅ Complete |
-| 6. Web UI | 0/4 | 4 | - |
+| 6. Web UI | 0/4 | 4 | Plans ready |
 
 **Recent Trend:**
 
