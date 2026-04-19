@@ -28,7 +28,7 @@ def upgrade() -> None:
         sa.Column('logic_score', sa.Numeric(7, 4), nullable=True),
         sa.Column('total_exposure', sa.Numeric(7, 4), nullable=True),
         sa.Column('contributing_logics', sa.Integer(), nullable=True, default=0),
-        sa.Column('created_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
+        sa.Column('created_at', sa.TIMESTAMP(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
         sa.PrimaryKeyConstraint('id'),
         sa.UniqueConstraint('stock_code', 'snapshot_date', name='uq_stock_logic_scores_code_date')
     )

@@ -1,7 +1,7 @@
 """add hold_decisions table
 
 Revision ID: 20260419_233000
-Revises: 20260419_230000
+Revises: add_stock_logic_scores, add_stock_market_scores, add_stock_catalysts
 Create Date: 2026-04-19 23:30:00.000000
 
 """
@@ -13,7 +13,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision: str = '20260419_233000'
-down_revision: Union[str, None] = '20260419_230000'
+down_revision: Union[str, None] = ('add_stock_logic_scores', 'add_stock_market_scores', 'add_stock_catalysts')
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
