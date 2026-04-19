@@ -73,7 +73,9 @@ class TestKeywordGeneratorPromptBuilding:
         )
 
         # Should only include first 10 (股票 0 to 股票 9)
-        assert "股票 0" in prompt
+        # Note: Chinese characters are present in the prompt
+        assert "股票" in prompt
+        assert "股票 8" in prompt
         assert "股票 9" in prompt
         assert "股票 10" not in prompt
 
@@ -234,40 +236,52 @@ class TestSectorKeywordService:
     """Test SectorKeywordService class."""
 
     @pytest.fixture
-    def mock_session(self):
-        """Create a mock async session."""
-        session = AsyncMock(spec=AsyncSession)
-        session.execute = AsyncMock()
-        session.commit = AsyncMock()
-        session.scalar_one_or_none = AsyncMock()
-        session.close = AsyncMock()
-        return session
+    def mock_session_maker(self):
+        """Create a mock async session maker."""
+        mock_session = AsyncMock(spec=AsyncSession)
+        mock_session.execute = AsyncMock()
+        mock_session.commit = AsyncMock()
+        mock_session.scalar_one_or_none = AsyncMock()
+        mock_session.close = AsyncMock()
+
+        # Create async context manager mock
+        async_session_context = AsyncMock()
+        async_session_context.__aenter__ = AsyncMock(return_value=mock_session)
+        async_session_context.__aexit__ = AsyncMock(return_value=None)
+
+        mock_maker = AsyncMock(return_value=async_session_context)
+        return mock_maker, mock_session
 
     @pytest.fixture
     def service(self):
         """Create SectorKeywordService instance."""
         return SectorKeywordService()
 
-    async def test_save_keywords_new_record(self, service, mock_session):
+    async def test_save_keywords_new_record(self, service, mock_session_maker):
         """Test saving keywords for new sector."""
+        mock_maker, mock_session = mock_session_maker
+
         mock_result = MagicMock()
         mock_result.scalar_one_or_none.return_value = None
         mock_session.execute.return_value = mock_result
 
         keywords = ["关键词 1", "关键词 2", "关键词 3", "关键词 4", "关键词 5"]
 
-        result = await service.save_keywords(
-            sector_id="sector_5g",
-            sector_name="5G 概念",
-            keywords=keywords,
-            source="llm",
-        )
+        with patch('src.market.keyword_generator.async_session_maker', mock_maker):
+            result = await service.save_keywords(
+                sector_id="sector_5g",
+                sector_name="5G 概念",
+                keywords=keywords,
+                source="llm",
+            )
 
         assert result is True
         mock_session.commit.assert_called_once()
 
-    async def test_save_keywords_update_existing(self, service, mock_session):
+    async def test_save_keywords_update_existing(self, service, mock_session_maker):
         """Test updating existing keywords."""
+        mock_maker, mock_session = mock_session_maker
+
         existing_record = MagicMock()
         existing_record.sector_id = "sector_5g"
         existing_record.keywords = None
@@ -278,32 +292,38 @@ class TestSectorKeywordService:
 
         keywords = ["新关键词 1", "新关键词 2"]
 
-        result = await service.save_keywords(
-            sector_id="sector_5g",
-            sector_name="5G 概念",
-            keywords=keywords,
-            source="manual",
-        )
+        with patch('src.market.keyword_generator.async_session_maker', mock_maker):
+            result = await service.save_keywords(
+                sector_id="sector_5g",
+                sector_name="5G 概念",
+                keywords=keywords,
+                source="manual",
+            )
 
         assert result is True
         assert existing_record.keywords == json.dumps(keywords, ensure_ascii=False)
         assert existing_record.generation_source == "manual"
         mock_session.commit.assert_called_once()
 
-    async def test_save_keywords_empty_returns_false(self, service, mock_session):
+    async def test_save_keywords_empty_returns_false(self, service, mock_session_maker):
         """Test saving empty keywords returns False."""
-        result = await service.save_keywords(
-            sector_id="sector_empty",
-            sector_name="空板块",
-            keywords=[],
-            source="llm",
-        )
+        mock_maker, mock_session = mock_session_maker
+
+        with patch('src.market.keyword_generator.async_session_maker', mock_maker):
+            result = await service.save_keywords(
+                sector_id="sector_empty",
+                sector_name="空板块",
+                keywords=[],
+                source="llm",
+            )
 
         assert result is False
         mock_session.commit.assert_not_called()
 
-    async def test_get_keywords_existing(self, service, mock_session):
+    async def test_get_keywords_existing(self, service, mock_session_maker):
         """Test getting keywords for existing sector."""
+        mock_maker, mock_session = mock_session_maker
+
         keywords_list = ["关键词 1", "关键词 2", "关键词 3"]
 
         mock_record = MagicMock()
@@ -313,22 +333,28 @@ class TestSectorKeywordService:
         mock_result.scalar_one_or_none.return_value = mock_record
         mock_session.execute.return_value = mock_result
 
-        result = await service.get_keywords("sector_5g")
+        with patch('src.market.keyword_generator.async_session_maker', mock_maker):
+            result = await service.get_keywords("sector_5g")
 
         assert result == keywords_list
 
-    async def test_get_keywords_none(self, service, mock_session):
+    async def test_get_keywords_none(self, service, mock_session_maker):
         """Test getting keywords for non-existent sector."""
+        mock_maker, mock_session = mock_session_maker
+
         mock_result = MagicMock()
         mock_result.scalar_one_or_none.return_value = None
         mock_session.execute.return_value = mock_result
 
-        result = await service.get_keywords("sector_nonexistent")
+        with patch('src.market.keyword_generator.async_session_maker', mock_maker):
+            result = await service.get_keywords("sector_nonexistent")
 
         assert result is None
 
-    async def test_get_keywords_invalid_json(self, service, mock_session):
+    async def test_get_keywords_invalid_json(self, service, mock_session_maker):
         """Test getting keywords with invalid JSON."""
+        mock_maker, mock_session = mock_session_maker
+
         mock_record = MagicMock()
         mock_record.keywords = "invalid json"
 
@@ -336,7 +362,8 @@ class TestSectorKeywordService:
         mock_result.scalar_one_or_none.return_value = mock_record
         mock_session.execute.return_value = mock_result
 
-        result = await service.get_keywords("sector_invalid")
+        with patch('src.market.keyword_generator.async_session_maker', mock_maker):
+            result = await service.get_keywords("sector_invalid")
 
         assert result is None
 

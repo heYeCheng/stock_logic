@@ -1,7 +1,7 @@
 """add_sector_keywords table
 
 Revision ID: add_sector_keywords
-Revises: add_stock_logic_exposures
+Revises: add_stock_logic_scores
 Create Date: 2026-04-19 22:35:00.000000
 
 """
@@ -13,7 +13,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision: str = 'add_sector_keywords'
-down_revision: Union[str, Sequence[str], None] = 'add_stock_logic_exposures'
+down_revision: Union[str, None] = 'add_stock_logic_exposures'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
