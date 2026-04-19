@@ -436,6 +436,7 @@ class TestSectorRadarService:
                 ma60=Decimal("100"),
                 is_limit_up=True,
                 consecutive_gains=2,
+                market_score=Decimal("0.75"),  # For concentration calculation
             ),
         ]
 
@@ -454,6 +455,8 @@ class TestSectorRadarService:
         assert snapshot.sentiment_score is not None
         assert snapshot.composite_score is not None
         assert snapshot.state is not None
+        assert snapshot.lead_concentration is not None
+        assert snapshot.concentration_interpretation is not None
 
     def test_determine_state_weak(self):
         """Test state determination for weak sector."""
