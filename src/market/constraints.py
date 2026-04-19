@@ -111,11 +111,11 @@ class ConstraintChecker:
             price_ratio = Decimal("1")
 
         # High risk: 30% above MA20 or 5+ consecutive gains
-        if price_ratio > self.CHASING_HIGH_MA or consecutive_gains >= self.CHASING_HIGH_GAINS:
+        if price_ratio >= self.CHASING_HIGH_MA or consecutive_gains >= self.CHASING_HIGH_GAINS:
             return "high"
 
         # Medium risk: 15% above MA20 or 3+ consecutive gains
-        elif price_ratio > self.CHASING_MEDIUM_MA or consecutive_gains >= self.CHASING_MEDIUM_GAINS:
+        elif price_ratio >= self.CHASING_MEDIUM_MA or consecutive_gains >= self.CHASING_MEDIUM_GAINS:
             return "medium"
 
         else:

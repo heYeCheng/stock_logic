@@ -13,7 +13,7 @@
 - [x] **Phase 2: Macro Environment** - L0 macro scoring and regime detection
 - [x] **Phase 3: Logic Layer** - L1 event scorecard and LLM logic extraction - 12/12 tests pass
 - [x] **Phase 4: Market Layer** - L2 sector market radar and L3 stock scoring - 13/13 plans complete
-- [ ] **Phase 5: Execution** - L4 position function and trading constraints
+- [x] **Phase 5: Execution** - L4 position function and trading constraints
 - [ ] **Phase 6: Web UI** - FastAPI REST API + React dashboard
 
 ---
@@ -157,10 +157,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] EXEC-01-PLAN.md — Continuous position function with macro and sector overlays
-- [ ] EXEC-02-PLAN.md — A-share trading constraints (limit up/down, suspension, chasing risk)
-- [ ] EXEC-03-PLAN.md — Stock recommendation markers (逻辑受益股/关联受益股/情绪跟风股)
-- [ ] EXEC-04-PLAN.md — Stop-loss and hold decision rules
+- [x] EXEC-01-PLAN.md — Continuous position function with macro and sector overlays
+- [x] EXEC-02-PLAN.md — A-share trading constraints (limit up/down, suspension, chasing risk)
+- [x] EXEC-03-PLAN.md — Stock recommendation markers (逻辑受益股/关联受益股/情绪跟风股)
+- [x] EXEC-04-PLAN.md — Stop-loss and hold decision rules
 
 ---
 
@@ -197,8 +197,8 @@ Plans:
 | 1. Infrastructure | 4/4 | ✅ Complete | 2026-04-19 |
 | 2. Macro Environment | 4/4 | ✅ Complete | 2026-04-19 |
 | 3. Logic Layer | 6/6 | ✅ Complete | 2026-04-19 |
-| 4. Market Layer | 0/13 | Not started | - |
-| 5. Execution | 0/4 | Not started | - |
+| 4. Market Layer | 13/13 | ✅ Complete | 2026-04-19 |
+| 5. Execution | 4/4 | ✅ Complete | 2026-04-19 |
 | 6. Web UI | 0/4 | Not started | - |
 
 ---
@@ -234,10 +234,10 @@ Plans:
 | STOCK-06 | Phase 4 | Pending |
 | STOCK-07 | Phase 4 | Pending |
 | STOCK-08 | Phase 4 | Pending |
-| EXEC-01 | Phase 5 | Pending |
-| EXEC-02 | Phase 5 | Pending |
-| EXEC-03 | Phase 5 | Pending |
-| EXEC-04 | Phase 5 | Pending |
+| EXEC-01 | Phase 5 | ✅ Complete |
+| EXEC-02 | Phase 5 | ✅ Complete |
+| EXEC-03 | Phase 5 | ✅ Complete |
+| EXEC-04 | Phase 5 | ✅ Complete |
 | WEB-01 | Phase 6 | Pending |
 | WEB-02 | Phase 6 | Pending |
 | WEB-03 | Phase 6 | Pending |
