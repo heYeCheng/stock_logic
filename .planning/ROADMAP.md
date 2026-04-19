@@ -183,7 +183,7 @@ Plans:
 Plans:
 - [ ] 06-01-PLAN.md — FastAPI REST API (recommendations, stock details, macro overview)
 - [x] 06-02-PLAN.md — React frontend (stock cards, radar charts, logic summaries)
-- [ ] 06-03-PLAN.md — Manual override interface (strength, affiliation strength)
+- [x] 06-03-PLAN.md — Manual override interface (strength, affiliation strength, audit trail)
 - [ ] 06-04-PLAN.md — YAML config editor with version control
 
 **UI hint**: yes
@@ -199,7 +199,7 @@ Plans:
 | 3. Logic Layer | 6/6 | ✅ Complete | 2026-04-19 |
 | 4. Market Layer | 13/13 | ✅ Complete | 2026-04-19 |
 | 5. Execution | 4/4 | ✅ Complete | 2026-04-19 |
-| 6. Web UI | 1/4 | In progress | - |
+| 6. Web UI | 2/4 | In progress | - |
 
 ---
 
