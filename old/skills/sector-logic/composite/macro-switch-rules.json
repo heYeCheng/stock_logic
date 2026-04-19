@@ -1,0 +1,60 @@
+{
+  "name": "宏观开关规则",
+  "version": 1,
+  "description": "宏观环境恶劣时触发降级机制，保护投资组合",
+  "macro_switch_rules": {
+    "trigger_condition": {
+      "macro_thesis_score_threshold": 0.3,
+      "description": "当 macro_thesis_score < 0.3 时触发宏观开关",
+      "macro_state_required": "tight"
+    },
+    "downgrade_actions": [
+      {
+        "action": "tier_downgrade",
+        "description": "所有股票 tier 降级一层",
+        "details": "重点关注 → 观察名单，观察名单 → 其余，其余 → 忽略"
+      },
+      {
+        "action": "position_reduction",
+        "description": "总仓位上限降低",
+        "details": "总仓位上限从 80% 降至 50%"
+      },
+      {
+        "action": "new_position_block",
+        "description": "禁止新建仓位",
+        "details": "只允许卖出，不允许买入（除重点关注层外）"
+      }
+    ],
+    "exception_rules": {
+      "defensive_sectors": [
+        "食品饮料",
+        "电力/公用事业",
+        "医药/创新药"
+      ],
+      "description": "防御性板块不受宏观开关影响，可正常操作"
+    },
+    "exit_condition": {
+      "macro_thesis_score_threshold": 0.5,
+      "consecutive_days": 5,
+      "description": "macro_thesis_score 连续 5 天 >= 0.5 时退出宏观开关状态"
+    }
+  },
+  "partial_downgrade_rules": {
+    "trigger_condition": {
+      "macro_thesis_score_threshold": 0.4,
+      "description": "当 macro_thesis_score < 0.4 时触发部分降级"
+    },
+    "actions": [
+      {
+        "action": "recommend_score_haircut",
+        "haircut": 0.1,
+        "description": "所有 recommend_score 扣减 0.1 分"
+      }
+    ]
+  },
+  "metadata": {
+    "created_at": "2026-04-17",
+    "update_frequency": "quarterly",
+    "note": "宏观开关是保护机制，宁可错杀不可漏网"
+  }
+}

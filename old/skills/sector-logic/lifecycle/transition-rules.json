@@ -1,0 +1,85 @@
+{
+  "name": "生命周期状态流转规则",
+  "version": 1,
+  "description": "定义生命周期状态流转阈值和翻转检测规则",
+  "thresholds": {
+    "discovery_to_tracking": {
+      "min_logic_strength": 0.4,
+      "required_status": "dominant",
+      "min_consecutive_days": 1,
+      "description": "逻辑强度 >= 0.4 且 status = dominant 进入追踪期"
+    },
+    "tracking_to_monitoring": {
+      "min_logic_strength": 0.6,
+      "required_status": "dominant",
+      "min_consecutive_days": 5,
+      "description": "逻辑强度 >= 0.6 且持续 5 天进入监控期"
+    },
+    "monitoring_to_confirmation": {
+      "min_logic_strength": 0.75,
+      "required_status": "dominant",
+      "min_consecutive_days": 10,
+      "description": "逻辑强度 >= 0.75 且持续 10 天进入确认期"
+    },
+    "confirmation_to_output_realized": {
+      "condition": "target_reached",
+      "target_price_achieved": true,
+      "description": "逻辑已兑现（达到目标价位或逻辑目标）"
+    },
+    "any_to_output_falsified": {
+      "max_logic_strength": 0.3,
+      "required_status": "fading",
+      "description": "逻辑强度 < 0.3 且 status = fading，逻辑被证伪"
+    },
+    "dominant_to_secondary": {
+      "max_logic_strength": 0.5,
+      "description": "逻辑强度 < 0.5 从 dominant 降为 secondary"
+    },
+    "secondary_to_fading": {
+      "max_logic_strength": 0.35,
+      "description": "逻辑强度 < 0.35 从 secondary 降为 fading"
+    }
+  },
+  "flip_detection": {
+    "description": "翻转事件检测规则",
+    "trigger_1_dominant_collapse": {
+      "condition": "status = dominant AND logic_strength < 0.4",
+      "confidence_threshold": 0.7,
+      "action": "触发 LogicFlipEvent，推送 EventBus",
+      "description": "主导逻辑瓦解"
+    },
+    "trigger_2_new_emergence": {
+      "condition": "存在非 dominant 逻辑，其 strength > dominant_strength × 0.8",
+      "confidence_threshold": 0.6,
+      "action": "触发 LogicFlipEvent，推送 EventBus",
+      "description": "新逻辑接近超越"
+    },
+    "trigger_3_price_divergence": {
+      "condition": "logic_strength 上升但 sector_price 下跌超过 5%",
+      "consecutive_days": 5,
+      "confidence_threshold": 0.65,
+      "action": "触发 LogicFlipEvent，推送 EventBus",
+      "description": "价格行为背离（5 天）"
+    },
+    "trigger_4_risk_accumulation": {
+      "condition": "issue_queue 中高风险条目 >= 3 条",
+      "risk_level": "high",
+      "confidence_threshold": 0.7,
+      "action": "触发 LogicFlipEvent，推送 EventBus",
+      "description": "风险因素累积"
+    }
+  },
+  "strength_history_window": {
+    "days": 30,
+    "description": "强度历史窗口用于计算趋势"
+  },
+  "trend_calculation": {
+    "increasing": "最近 5 天平均强度 > 前 5 天平均强度 × 1.1",
+    "stable": "最近 5 天平均强度 在 前 5 天平均强度 × 0.9-1.1 范围内",
+    "declining": "最近 5 天平均强度 < 前 5 天平均强度 × 0.9"
+  },
+  "metadata": {
+    "created_at": "2026-04-17",
+    "update_frequency": "quarterly"
+  }
+}

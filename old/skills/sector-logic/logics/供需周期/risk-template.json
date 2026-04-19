@@ -1,0 +1,41 @@
+{
+  "logic_type": "供需周期",
+  "version": 1,
+  "risk_factors": [
+    {
+      "risk": "周期提前到来",
+      "source": "产能去化加速、库存提前见底",
+      "trigger_prompt": "判断以下信号是否构成'周期提前到来'风险：\n- 产能去化速度快于预期 50% 以上\n- 库存提前见底且补库开始\n- 价格快速上涨超预期\n输出：true/false + 理由",
+      "action": "调整周期相位判断 → 更新 logic_strength",
+      "suggestion": "观察"
+    },
+    {
+      "risk": "周期延后",
+      "source": "产能去化慢于预期、库存去化放缓",
+      "trigger_prompt": "判断以下信号是否构成'周期延后'风险：\n- 产能去化速度低于预期 50%\n- 库存去化连续 3 月放缓\n- 价格反弹无力\n输出：true/false + 理由",
+      "action": "降低周期确定性分数 → 降低 logic_strength",
+      "suggestion": "减仓"
+    },
+    {
+      "risk": "新产能打破平衡",
+      "source": "新增产能投产、海外进口增加",
+      "trigger_prompt": "判断以下信号是否构成'新产能打破平衡'风险：\n- 大规模新增产能集中投产\n- 海外进口量同比大增\n- 供给缺口快速收窄\n输出：true/false + 理由",
+      "action": "降低供需缺口预期 → 降低 logic_strength",
+      "suggestion": "减仓"
+    },
+    {
+      "risk": "需求端结构性变化",
+      "source": "消费习惯改变、替代品渗透",
+      "trigger_prompt": "判断以下信号是否构成'需求端结构性变化'风险：\n- 消费习惯发生不可逆改变\n- 替代品渗透率快速提升\n- 下游需求永久性萎缩\n输出：true/false + 理由",
+      "action": "降低需求维度分数 → 降低 logic_strength",
+      "suggestion": "离场"
+    },
+    {
+      "risk": "外部冲击打断周期",
+      "source": "疫情、战争、自然灾害",
+      "trigger_prompt": "判断以下信号是否构成'外部冲击打断周期'风险：\n- 重大疫情影响供应链\n- 战争或地缘冲突\n- 自然灾害破坏产能\n输出：true/false + 理由",
+      "action": "标记周期暂停 → logic_strength 暂降",
+      "suggestion": "离场"
+    }
+  ]
+}

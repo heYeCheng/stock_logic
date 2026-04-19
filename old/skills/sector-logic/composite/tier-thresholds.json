@@ -1,0 +1,48 @@
+{
+  "name": "综合决策分层阈值",
+  "version": 1,
+  "description": "根据 recommend_score 将股票分为三层：重点关注/观察名单/其余",
+  "tier_thresholds": {
+    "重点关注": {
+      "min_recommend_score": 0.7,
+      "color": "red",
+      "description": "强烈推荐，优先配置",
+      "action_hint": "可建立主要仓位",
+      "max_position_pct": 10,
+      "suggested_position_pct": 5
+    },
+    "观察名单": {
+      "min_recommend_score": 0.5,
+      "max_recommend_score": 0.7,
+      "color": "orange",
+      "description": "值得观察，等待更好买点",
+      "action_hint": "加入自选，等待回调",
+      "max_position_pct": 5,
+      "suggested_position_pct": 2
+    },
+    "其余": {
+      "default": true,
+      "color": "gray",
+      "description": "暂不关注或存在明显缺陷",
+      "action_hint": "保持观察或忽略",
+      "max_position_pct": 0,
+      "suggested_position_pct": 0
+    }
+  },
+  "position_management": {
+    "total_position_limit": 80,
+    "max_single_stock_position": 10,
+    "max_sector_position": 30,
+    "description": "总仓位上限 80%，单只股票上限 10%，单一板块上限 30%"
+  },
+  "rebalance_rules": {
+    "rebalance_frequency": "weekly",
+    "rebalance_day": "Monday",
+    "threshold_for_rebalance": 0.1,
+    "description": "每周一定仓，recommend_score 变化超过 0.1 时调整仓位"
+  },
+  "metadata": {
+    "created_at": "2026-04-17",
+    "update_frequency": "quarterly"
+  }
+}

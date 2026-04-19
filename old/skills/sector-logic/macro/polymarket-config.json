@@ -1,0 +1,70 @@
+{
+  "name": "Polymarket 配置",
+  "version": 1,
+  "description": "Polymarket 预测市场集成配置，用于宏观层全球事件评估",
+  "api": {
+    "base_url": "https://gamma-api.polymarket.com",
+    "timeout_seconds": 30,
+    "retry_count": 3
+  },
+  "markets": [
+    {
+      "id": "us-china-tariffs",
+      "name": "中美关税升级",
+      "description": "2026 年美国对中国商品加征关税超过 25%",
+      "category": "geopolitics",
+      "sensitivity_sectors": ["半导体", "消费电子", "汽车/零部件", "有色金属"],
+      "threshold": 0.2
+    },
+    {
+      "id": "fed-rate-march-2026",
+      "name": "美联储 2026 年 3 月利率决策",
+      "description": "美联储 FOMC 会议利率变化",
+      "category": "monetary_policy",
+      "sensitivity_sectors": ["银行/保险", "房地产", "AI/算力", "新能源/光伏"],
+      "threshold": 0.15
+    },
+    {
+      "id": "recession-2026",
+      "name": "美国 2026 年衰退",
+      "description": "2026 年美国 GDP 连续两个季度负增长",
+      "category": "economic",
+      "sensitivity_sectors": ["消费电子", "汽车/零部件", "有色金属", "煤炭/石油"],
+      "threshold": 0.2
+    },
+    {
+      "id": "china-stimulus-2026",
+      "name": "中国 2026 年刺激政策",
+      "description": "中国推出超过 1 万亿财政刺激",
+      "category": "monetary_policy",
+      "sensitivity_sectors": ["房地产", "银行/保险", "食品饮料", "传媒/游戏"],
+      "threshold": 0.2
+    },
+    {
+      "id": "taiwan-conflict",
+      "name": "台海冲突风险",
+      "description": "台海发生军事冲突",
+      "category": "geopolitics",
+      "sensitivity_sectors": ["国防军工", "半导体", "AI/算力", "消费电子"],
+      "threshold": 0.1
+    },
+    {
+      "id": "oil-price-spike",
+      "name": "油价飙升",
+      "description": "WTI 原油价格超过 120 美元/桶",
+      "category": "commodity",
+      "sensitivity_sectors": ["煤炭/石油", "交通运输", "化工"],
+      "threshold": 0.25
+    }
+  ],
+  "probability_change_alerts": {
+    "large_move_threshold": 0.2,
+    "check_frequency": "daily",
+    "alert_channels": ["event_bus", "dashboard"]
+  },
+  "metadata": {
+    "created_at": "2026-04-17",
+    "update_frequency": "monthly",
+    "note": "市场 ID 可能需要根据 Polymarket 实际 API 调整"
+  }
+}

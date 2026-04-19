@@ -1,0 +1,193 @@
+{
+  "name": "宏观五维度评估框架",
+  "version": 2,
+  "description": "宏观环境评估框架，覆盖中国、美国、全球三个地域，五个维度（流动性环境/经济周期位置/通胀与成本/政策方向/全球联动），包含领先指标、衍生指标、时间序列分析",
+  "dimensions": [
+    {
+      "name": "流动性环境",
+      "weight": 0.25,
+      "indicators": [
+        {
+          "name": "M1-M2 剪刀差",
+          "type": "leading",
+          "data_source": "Tushare cn_m API",
+          "calculation": "M1_yoy - M2_yoy",
+          "interpretation": "剪刀差扩大（M1 增速 > M2）= 企业活期存款增加 = 流动性宽松；剪刀差收窄 = 流动性收紧信号",
+          "leading_months": "3-6",
+          "scoring_rule": "剪刀差 > 2% → 9-10分；0-2% → 6-8分；-2-0% → 4-6分；< -2% → 0-3分"
+        },
+        {
+          "name": "Shibor 期限结构",
+          "type": "coincident",
+          "data_source": "Tushare shibor API",
+          "calculation": "(Shibor_1y - Shibor_overnight) / 365",
+          "interpretation": "期限利差扩大 = 长期流动性宽松预期；期限利差收窄 = 短期流动性偏紧",
+          "scoring_rule": "斜率 > 0.8% → 7-10分；0.5-0.8% → 5-7分；< 0.5% → 0-5分"
+        },
+        {
+          "name": "社融存量增速",
+          "type": "leading",
+          "data_source": "Tushare sf_month API",
+          "calculation": "(当月社融存量 - 去年同期) / 去年同期",
+          "interpretation": "社融增速加快 = 信用扩张 = 流动性宽松；社融增速放缓 = 信用收缩",
+          "leading_months": "2-4",
+          "scoring_rule": "增速 > 10% → 8-10分；8-10% → 6-8分；< 8% → 0-6分"
+        },
+        {
+          "name": "Shibor-Hibor 利差",
+          "type": "coincident",
+          "data_source": "Tushare shibor/hibor API",
+          "calculation": "Shibor_overnight - Hibor_overnight",
+          "interpretation": "利差扩大 = 跨境资金流出压力 = 人民币流动性偏紧；利差收窄 = 跨境资金流入",
+          "scoring_rule": "利差 < 0.2% → 8-10分；0.2-0.5% → 5-8分；> 0.5% → 0-5分"
+        }
+      ],
+      "scoring_prompt": "评估流动性环境：\n- M1-M2 剪刀差（领先 3-6 月）\n- Shibor 期限结构\n- 社融存量增速（领先 2-4 月）\n- Shibor-Hibor 利差\n综合评分 0-10，10 为最宽松有利"
+    },
+    {
+      "name": "经济周期位置",
+      "weight": 0.25,
+      "indicators": [
+        {
+          "name": "PMI 领先指数",
+          "type": "leading",
+          "data_source": "Tushare cn_pmi API",
+          "calculation": "PMI_new_orders - PMI_inventory",
+          "interpretation": "新订单 > 库存 = 主动补库存 = 经济扩张期；新订单 < 库存 = 被动去库存 = 经济收缩期",
+          "leading_months": "2-3",
+          "scoring_rule": "差值 > 3 → 8-10分；1-3 → 6-8分；-1-1 → 4-6分；< -1 → 0-4分"
+        },
+        {
+          "name": "PMI 库存周期",
+          "type": "coincident",
+          "data_source": "Tushare cn_pmi API",
+          "calculation": "PMI_production vs PMI_inventory 相位判断",
+          "interpretation": "主动补库存（产量↑库存↑）= 复苏期；被动补库存（产量↓库存↑）= 滞胀期；主动去库存（产量↓库存↓）= 衰退期；被动去库存（产量↑库存↓）= 过热期",
+          "scoring_rule": "主动补库存 → 8-10分；被动去库存 → 6-8分；主动去库存 → 0-4分"
+        },
+        {
+          "name": "PMI 分行业景气度",
+          "type": "coincident",
+          "data_source": "Tushare cn_pmi API",
+          "calculation": "装备制造业/高技术制造业/消费品制造业 PMI",
+          "interpretation": "高技术制造业 PMI > 50 = 新动能强劲；消费品制造业 PMI > 50 = 内需复苏",
+          "scoring_rule": "高技术+消费品均 > 50 → 8-10分；一个 > 50 → 5-8分；均 < 50 → 0-5分"
+        }
+      ],
+      "scoring_prompt": "评估经济周期位置：\n- PMI 领先指数（新订单-库存，领先 2-3 月）\n- PMI 库存周期相位\n- PMI 分行业景气度\n综合评分 0-10，10 为最强劲扩张"
+    },
+    {
+      "name": "通胀与成本",
+      "weight": 0.2,
+      "indicators": [
+        {
+          "name": "PPI-CPI 剪刀差",
+          "type": "coincident",
+          "data_source": "Tushare cn_ppi/cn_cpi API",
+          "calculation": "PPI_yoy - CPI_yoy",
+          "interpretation": "剪刀差扩大 = 上游成本压力向下游传导 = 企业利润承压；剪刀差收窄 = 成本压力缓解 = 企业利润改善",
+          "scoring_rule": "剪刀差 < -1% → 8-10分（成本压力小）；-1-1% → 5-8分；> 1% → 0-5分（成本压力大）"
+        },
+        {
+          "name": "PPI 产业链传导",
+          "type": "lagging",
+          "data_source": "Tushare cn_ppi API",
+          "calculation": "PPI_生产资料 vs PPI_生活资料",
+          "interpretation": "生产资料 PPI 上涨快于生活资料 = 上游涨价未传导 = 中下游承压；生活资料 PPI 跟涨 = 成本传导顺畅",
+          "scoring_rule": "生产资料-生活资料 < 1% → 7-10分；1-3% → 4-7分；> 3% → 0-4分"
+        },
+        {
+          "name": "PMI 价格指数",
+          "type": "leading",
+          "data_source": "Tushare cn_pmi API",
+          "calculation": "PMI_purchase_price（购进价格）vs PMI_ex_factory_price（出厂价格）",
+          "interpretation": "购进价格 > 出厂价格 = 成本上涨快于售价 = 利润承压；出厂价格跟涨 = 定价权强",
+          "leading_months": "1-2",
+          "scoring_rule": "购进-出厂 < 2 → 7-10分；2-5 → 4-7分；> 5 → 0-4分"
+        }
+      ],
+      "scoring_prompt": "评估通胀与成本：\n- PPI-CPI 剪刀差\n- PPI 产业链传导\n- PMI 价格指数（领先 1-2 月）\n综合评分 0-10，10 为成本压力最小"
+    },
+    {
+      "name": "政策方向",
+      "weight": 0.15,
+      "indicators": [
+        {
+          "name": "高层会议定调",
+          "type": "leading",
+          "data_source": "gov.cn + LLM 分类",
+          "calculation": "政治局会议/中央经济工作会议关键词提取",
+          "interpretation": "稳增长/扩内需 = 政策宽松；防风险/去杠杆 = 政策收紧",
+          "leading_months": "1-3",
+          "scoring_rule": "LLM 评估政策基调，0-10 分"
+        },
+        {
+          "name": "部委表态",
+          "type": "coincident",
+          "data_source": "部委网站 + LLM 分类",
+          "calculation": "发改委/财政部/央行表态频率与方向",
+          "interpretation": "促消费/降息降准 = 政策宽松；控风险/稳杠杆 = 政策中性",
+          "scoring_rule": "LLM 评估政策密集度与方向，0-10 分"
+        },
+        {
+          "name": "实体融资成本",
+          "type": "lagging",
+          "data_source": "Tushare shibor + 贷款利率",
+          "calculation": "企业贷款加权平均利率",
+          "interpretation": "融资成本下降 = 政策宽松传导有效；融资成本上升 = 政策收紧",
+          "scoring_rule": "利率 < 4% → 8-10分；4-5% → 5-8分；> 5% → 0-5分"
+        }
+      ],
+      "scoring_prompt": "评估政策方向：\n- 高层会议定调（领先 1-3 月）\n- 部委表态密集度\n- 实体融资成本\n综合评分 0-10，10 为最宽松有利"
+    },
+    {
+      "name": "全球联动",
+      "weight": 0.15,
+      "indicators": [
+        {
+          "name": "美国宏观",
+          "type": "leading",
+          "data_source": "Fed/BLS/Tushare",
+          "calculation": "Fed Funds Rate + 10Y Treasury + ISM PMI + 非农",
+          "interpretation": "美联储加息 = 美元走强 = 人民币承压 = A 股流动性收紧；美联储降息 = 全球流动性宽松",
+          "leading_months": "1-2",
+          "scoring_rule": "Fed Rate 下降趋势 → 8-10分；持平 → 5-8分；上升趋势 → 0-5分"
+        },
+        {
+          "name": "Polymarket 预测",
+          "type": "leading",
+          "data_source": "Polymarket API",
+          "calculation": "关税风险/地缘冲突/Fed 降息概率",
+          "interpretation": "关税风险概率上升 = 外贸承压；地缘冲突概率上升 = 避险需求上升",
+          "leading_months": "0.5-1",
+          "scoring_rule": "风险概率 < 30% → 8-10分；30-50% → 5-8分；> 50% → 0-5分"
+        },
+        {
+          "name": "关税风险",
+          "type": "coincident",
+          "data_source": "USTR/白宫官网 + Polymarket",
+          "calculation": "关税政策变化 + Polymarket 关税概率",
+          "interpretation": "关税上升 = 出口承压 = 外需下降；关税下降 = 外需改善",
+          "scoring_rule": "关税下降或概率 < 30% → 8-10分；持平 → 5-8分；上升 → 0-5分"
+        }
+      ],
+      "scoring_prompt": "评估全球联动：\n- 美国宏观（Fed Rate/10Y Treasury/ISM PMI/非农）\n- Polymarket 预测（关税/地缘/Fed 降息）\n- 关税风险\n综合评分 0-10，10 为最有利"
+    }
+  ],
+  "metadata": {
+    "update_frequency": "weekly",
+    "event_triggered_update": true,
+    "event_triggers": [
+      "美联储加息/降息决议",
+      "中国央行降准/降息",
+      "关税政策重大变化",
+      "地缘冲突升级",
+      "Polymarket 概率变化 > 20%"
+    ],
+    "created_at": "2026-04-17",
+    "version_history": [
+      {"version": 1, "date": "2026-04-17", "changes": "初始版本，3 维度"},
+      {"version": 2, "date": "2026-04-17", "changes": "Phase 2.5 增强：扩展到 5 维度，新增领先指标、衍生指标、时间序列分析"}
+    ]
+  }
+}

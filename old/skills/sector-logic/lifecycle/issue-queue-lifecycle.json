@@ -1,0 +1,68 @@
+{
+  "name": "Issue 队列生命周期",
+  "version": 1,
+  "description": "定义 Issue 队列条目的生命周期管理规则",
+  "issue_lifecycle_states": [
+    {
+      "id": "active",
+      "name": "活跃",
+      "description": "风险因素刚被触发，需要关注",
+      "entry_condition": "风险扫描检测到风险因素触发",
+      "exit_condition": "风险解除 → resolved 或 风险恶化 → escalated",
+      "typical_duration_days": "1-14 天",
+      "action_required": "持续监控"
+    },
+    {
+      "id": "resolved",
+      "name": "已解决",
+      "description": "风险因素已解除",
+      "entry_condition": "风险信号消失或逻辑强度恢复",
+      "exit_condition": "归档，不再追踪",
+      "typical_duration_days": "N/A",
+      "action_required": "记录归档"
+    },
+    {
+      "id": "escalated",
+      "name": "已升级",
+      "description": "风险因素恶化，需要升级处理",
+      "entry_condition": "风险信号增强或逻辑强度持续下降",
+      "exit_condition": "风险解除 → resolved 或 逻辑瓦解 → output",
+      "typical_duration_days": "1-7 天",
+      "action_required": "减仓或离场建议"
+    }
+  ],
+  "issue_priority_levels": {
+    "low": {
+      "description": "观察级别，逻辑强度轻微下降",
+      "strength_drop_threshold": "< 0.1",
+      "suggestion": "观察",
+      "notification": "不推送，仅在日报中汇总"
+    },
+    "medium": {
+      "description": "关注级别，逻辑强度下降明显",
+      "strength_drop_threshold": "0.1-0.2",
+      "suggestion": "减仓",
+      "notification": "推送 EventBus，Dashboard 高亮"
+    },
+    "high": {
+      "description": "警告级别，逻辑强度大幅下降",
+      "strength_drop_threshold": "> 0.2",
+      "suggestion": "离场",
+      "notification": "立即推送 EventBus，Bot 通知"
+    }
+  },
+  "issue_resolution_rules": {
+    "auto_resolve_after_days": 14,
+    "resolve_condition": "logic_strength 恢复到触发前水平的 90% 以上",
+    "escalation_condition": "logic_strength 继续下降超过 0.15 或 新增风险因素"
+  },
+  "issue_queue_management": {
+    "max_active_issues_per_logic": 5,
+    "cleanup_frequency": "daily",
+    "archive_after_days": 30
+  },
+  "metadata": {
+    "created_at": "2026-04-17",
+    "update_frequency": "quarterly"
+  }
+}

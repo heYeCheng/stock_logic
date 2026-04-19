@@ -9,9 +9,9 @@
 
 ## Phases
 
-- [ ] **Phase 1: Infrastructure** - Database, data sources, scheduling foundation
-- [ ] **Phase 2: Macro Environment** - L0 macro scoring and regime detection
-- [ ] **Phase 3: Logic Layer** - L1 event scorecard and LLM logic extraction
+- [x] **Phase 1: Infrastructure** - Database, data sources, scheduling foundation
+- [x] **Phase 2: Macro Environment** - L0 macro scoring and regime detection
+- [x] **Phase 3: Logic Layer** - L1 event scorecard and LLM logic extraction - 12/12 tests pass
 - [ ] **Phase 4: Market Layer** - L2 sector market radar and L3 stock scoring
 - [ ] **Phase 5: Execution** - L4 position function and trading constraints
 - [ ] **Phase 6: Web UI** - FastAPI REST API + React dashboard
@@ -34,7 +34,13 @@
   3. System can fetch data from Tushare, 东方财富，and akshare without manual intervention
   4. LLM calls and data source health are logged for monitoring
 
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — MySQL database layer with SQLAlchemy 2.0 async, ORM models, Alembic migrations
+- [ ] 01-02-PLAN.md — Tushare primary fetcher with rate limiting, Akshare/Efinance fallbacks
+- [ ] 01-03-PLAN.md — APScheduler + cron daily job for post-market data ingestion
+- [ ] 01-04-PLAN.md — LiteLLM JSON logging and application health monitoring
 
 ---
 
@@ -52,7 +58,13 @@
   3. Macro data updates monthly with event-triggered refresh capability
   4. System gracefully degrades to macro_multiplier = 1.00 when data unavailable
 
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [x] 02-01-PLAN.md — Macro five-dimension scoring module (liquidity, growth, inflation, policy, global)
+- [x] 02-02-PLAN.md — Monetary-credit quadrant determination + macro_multiplier calculation
+- [x] 02-03-PLAN.md — Monthly refresh scheduler (15th 16:00 CST) with event-triggered stub
+- [x] 02-04-PLAN.md — Graceful degradation strategy (partial/limited/minimal data fallback)
 
 ---
 
@@ -72,7 +84,15 @@
   5. Net thrust is calculated with anti-logic flagging
   6. LLM service degradation uses previous day's data with decay applied
 
-**Plans**: TBD
+**Plans**: 6 plans
+
+Plans:
+- [x] 03-01-PLAN.md — LLM logic identification service (logic_id, direction, family, importance)
+- [x] 03-02-PLAN.md — LLM event extraction service (two-stage pipeline)
+- [x] 03-03-PLAN.md — Event scorecard rule engine (加减分，decay, validity)
+- [x] 03-04-PLAN.md — Event fingerprint validation (deduplication)
+- [x] 03-05-PLAN.md — Net thrust calculation (anti-logic flagging)
+- [x] 03-06-PLAN.md — LLM service degradation strategy (fallback)
 
 ---
 
@@ -86,7 +106,7 @@
 
 **Success Criteria** (what must be TRUE):
   1. Sector market radar outputs technical + sentiment scores
-  2. Sector three-state判定 (weak/normal/overheated) is computed
+  2. Sector three-state 判定 (weak/normal/overheated) is computed
   3. Lead concentration is calculated (替代分支分析)
   4. Structure markers output (聚焦/扩散/快速轮动)
   5. Tushare limit board data (limit_list, top_inst) is ingested
@@ -99,7 +119,22 @@
   12. Dragon leader/zhongjun/follower identification is performed
   13. Individual stock composite score computed (50% logic + 50% market)
 
-**Plans**: TBD
+**Plans**: 13 plans
+
+Plans:
+- [x] MARKET-01-PLAN.md — Sector market radar (technical + sentiment scores)
+- [x] MARKET-02-PLAN.md — Sector three-state determination (weak/normal/overheated)
+- [x] MARKET-03-PLAN.md — Lead concentration calculation (HHI-based)
+- [x] MARKET-04-PLAN.md — Structure markers (聚焦/扩散/快速轮动)
+- [x] MARKET-05-PLAN.md — Tushare limit board data ingestion
+- [x] STOCK-01-PLAN.md — Stock-sector mapping table
+- [x] STOCK-02-PLAN.md — Exposure coefficient calculation
+- [x] STOCK-03-PLAN.md — Keyword auto-generation (LLM)
+- [x] STOCK-04-PLAN.md — Stock logic score
+- [x] STOCK-05-PLAN.md — Stock market radar
+- [x] STOCK-06-PLAN.md — Catalyst markers (strong/medium/none)
+- [x] STOCK-07-PLAN.md — Dragon/zhongjun/follower identification
+- [x] STOCK-08-PLAN.md — Composite score (50% logic + 50% market)
 
 **UI hint**: yes
 
@@ -147,9 +182,9 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Infrastructure | 0/4 | Not started | - |
-| 2. Macro Environment | 0/4 | Not started | - |
-| 3. Logic Layer | 0/6 | Not started | - |
+| 1. Infrastructure | 4/4 | ✅ Complete | 2026-04-19 |
+| 2. Macro Environment | 4/4 | ✅ Complete | 2026-04-19 |
+| 3. Logic Layer | 6/6 | ✅ Complete | 2026-04-19 |
 | 4. Market Layer | 0/13 | Not started | - |
 | 5. Execution | 0/4 | Not started | - |
 | 6. Web UI | 0/4 | Not started | - |
@@ -164,16 +199,16 @@
 | INFRA-02 | Phase 1 | Pending |
 | INFRA-03 | Phase 1 | Pending |
 | INFRA-04 | Phase 1 | Pending |
-| MACRO-01 | Phase 2 | Pending |
-| MACRO-02 | Phase 2 | Pending |
-| MACRO-03 | Phase 2 | Pending |
-| MACRO-04 | Phase 2 | Pending |
-| LOGIC-01 | Phase 3 | Pending |
-| LOGIC-02 | Phase 3 | Pending |
-| LOGIC-03 | Phase 3 | Pending |
-| LOGIC-04 | Phase 3 | Pending |
-| LOGIC-05 | Phase 3 | Pending |
-| LOGIC-06 | Phase 3 | Pending |
+| MACRO-01 | Phase 2 | ✅ Complete |
+| MACRO-02 | Phase 2 | ✅ Complete |
+| MACRO-03 | Phase 2 | ✅ Complete |
+| MACRO-04 | Phase 2 | ✅ Complete |
+| LOGIC-01 | Phase 3 | ✅ Complete |
+| LOGIC-02 | Phase 3 | ✅ Complete |
+| LOGIC-03 | Phase 3 | ✅ Complete |
+| LOGIC-04 | Phase 3 | ✅ Complete |
+| LOGIC-05 | Phase 3 | ✅ Complete |
+| LOGIC-06 | Phase 3 | ✅ Complete |
 | MARKET-01 | Phase 4 | Pending |
 | MARKET-02 | Phase 4 | Pending |
 | MARKET-03 | Phase 4 | Pending |

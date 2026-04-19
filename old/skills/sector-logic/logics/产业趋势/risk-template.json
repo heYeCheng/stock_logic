@@ -1,0 +1,41 @@
+{
+  "logic_type": "产业趋势",
+  "version": 1,
+  "risk_factors": [
+    {
+      "risk": "需求不及预期",
+      "source": "云厂商资本开支数据、下游订单、销量数据",
+      "trigger_prompt": "判断以下数据是否构成'需求不及预期'风险：\n- 云厂商资本开支同比增速 < 10%\n- 下游订单环比下滑\n- 产品销量连续 2 月同比下降\n输出：true/false + 理由",
+      "action": "降低需求验证维度分数 → 降低 logic_strength",
+      "suggestion": "减仓"
+    },
+    {
+      "risk": "技术路线被替代",
+      "source": "学术论文、专利、竞品发布",
+      "trigger_prompt": "判断以下信号是否构成'技术路线被替代'风险：\n- 竞争对手发布颠覆性技术\n- 核心专利被宣告无效\n- 学术论文质疑现有技术路线\n输出：true/false + 理由",
+      "action": "降低技术路线稳定性分数 → 降低 logic_strength",
+      "suggestion": "减仓"
+    },
+    {
+      "risk": "竞争格局恶化",
+      "source": "市场份额变化、新进入者、价格战",
+      "trigger_prompt": "判断以下信号是否构成'竞争格局恶化'风险：\n- 市占率连续 2 季度下滑\n- 强力新进入者获得大额融资\n- 行业爆发价格战\n输出：true/false + 理由",
+      "action": "降低竞争格局分数 → 降低 logic_strength",
+      "suggestion": "减仓"
+    },
+    {
+      "risk": "供给超预期",
+      "source": "产能投产数据、扩产公告",
+      "trigger_prompt": "判断以下信号是否构成'供给超预期'风险：\n- 新增产能大幅超过需求预测\n- 主要厂商集中扩产\n- 产能利用率快速下降\n输出：true/false + 理由",
+      "action": "降低供给验证分数 → 降低 logic_strength",
+      "suggestion": "观察"
+    },
+    {
+      "risk": "产业链中断",
+      "source": "供应链数据、海关数据、物流数据",
+      "trigger_prompt": "判断以下信号是否构成'产业链中断'风险：\n- 关键原材料供应中断\n- 海关出口数据异常下滑\n- 物流指数大幅下降\n输出：true/false + 理由",
+      "action": "标记供应链风险 → 降低 logic_strength",
+      "suggestion": "离场"
+    }
+  ]
+}

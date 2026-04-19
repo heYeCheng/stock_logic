@@ -1,0 +1,41 @@
+{
+  "logic_type": "制度变革",
+  "version": 1,
+  "risk_factors": [
+    {
+      "risk": "制度变革延迟",
+      "source": "政策文件延期、试点推迟",
+      "trigger_prompt": "判断以下信号是否构成'制度变革延迟'风险：\n- 政策文件明确延期\n- 试点范围缩小或推迟\n- 时间表大幅延后\n输出：true/false + 理由",
+      "action": "降低制度变革确定性 → 降低 logic_strength",
+      "suggestion": "减仓"
+    },
+    {
+      "risk": "制度执行偏离预期",
+      "source": "实施细则与预期不符",
+      "trigger_prompt": "判断以下信号是否构成'制度执行偏离预期'风险：\n- 实施细则大幅低于预期\n- 执行力度不足\n- 执行方向偏离\n输出：true/false + 理由",
+      "action": "降低制度有效性分数 → 降低 logic_strength",
+      "suggestion": "减仓"
+    },
+    {
+      "risk": "市场适应不良",
+      "source": "交易量变化、流动性数据",
+      "trigger_prompt": "判断以下信号是否构成'市场适应不良'风险：\n- 交易量大幅萎缩\n- 流动性显著下降\n- 市场参与者退出\n输出：true/false + 理由",
+      "action": "降低制度正面效应预期 → 降低 logic_strength",
+      "suggestion": "离场"
+    },
+    {
+      "risk": "制度被叫停或修改",
+      "source": "监管公告、政策调整",
+      "trigger_prompt": "判断以下信号是否构成'制度被叫停或修改'风险：\n- 监管公告叫停实施\n- 政策文件紧急修改\n- 试点被暂停\n输出：true/false + 理由",
+      "action": "直接触发翻转检测",
+      "suggestion": "离场"
+    },
+    {
+      "risk": "国际规则变化影响",
+      "source": "WTO/国际组织文件",
+      "trigger_prompt": "判断以下信号是否构成'国际规则变化影响'风险：\n- 国际组织文件限制\n- 跨境规则变化不利\n- 国际市场准入受限\n输出：true/false + 理由",
+      "action": "标记外部制度风险 → 降低 logic_strength",
+      "suggestion": "减仓"
+    }
+  ]
+}

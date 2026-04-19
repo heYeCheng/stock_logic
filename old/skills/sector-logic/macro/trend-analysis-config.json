@@ -1,0 +1,172 @@
+{
+  "name": "宏观趋势分析配置",
+  "version": 1,
+  "description": "定义时间序列分析方法、拐点检测规则、趋势判断标准",
+  "rolling_window": {
+    "default_length": 12,
+    "unit": "months",
+    "minimum_length": 6,
+    "rationale": "12 个月窗口可覆盖完整经济周期，最短 6 个月用于数据不足时降级"
+  },
+  "trend_detection": {
+    "method": "consecutive_direction_change",
+    "parameters": {
+      "consecutive_months": 3,
+      "threshold": 0.05,
+      "description": "连续 3 月同向变化且累计变化 > 5% 判定为趋势"
+    },
+    "trend_types": [
+      {
+        "name": "increasing",
+        "condition": "连续 3 月累计增加 > 5%",
+        "interpretation": "指标上升趋势，持续性强"
+      },
+      {
+        "name": "declining",
+        "condition": "连续 3 月累计减少 > 5%",
+        "interpretation": "指标下降趋势，持续性强"
+      },
+      {
+        "name": "stable",
+        "condition": "3 月内累计变化 < 5%",
+        "interpretation": "指标稳定，无明显趋势"
+      }
+    ]
+  },
+  "momentum_calculation": {
+    "method": "rate_of_change",
+    "formula": "(当前值 - N月前值) / |N月前值|",
+    "lookback_periods": {
+      "short_term": 3,
+      "medium_term": 6,
+      "long_term": 12
+    },
+    "interpretation": {
+      "strong_positive": "> 0.15",
+      "moderate_positive": "0.05 ~ 0.15",
+      "neutral": "-0.05 ~ 0.05",
+      "moderate_negative": "-0.15 ~ -0.05",
+      "strong_negative": "< -0.15"
+    }
+  },
+  "inflection_point_detection": {
+    "method": "direction_reversal",
+    "definition": "趋势方向改变的时间点",
+    "detection_rule": {
+      "condition": "(值[i] - 值[i-1]) × (值[i+1] - 值[i]) < 0",
+      "description": "前后两段斜率符号相反，即为拐点"
+    },
+    "significance_filter": {
+      "min_change_magnitude": 0.1,
+      "description": "拐点前后变化幅度 > 10% 才标记为显著拐点"
+    },
+    "lookback_limit": 24,
+    "rationale": "最多回溯 24 个月寻找拐点，超过 2 年的拐点参考价值降低"
+  },
+  "indicators_to_analyze": [
+    {
+      "name": "M1-M2 剪刀差",
+      "trend_sensitivity": "high",
+      "momentum_weight": 0.8,
+      "inflection_significance": "critical",
+      "alert_on_inflection": true,
+      "rationale": "领先指标，拐点预示流动性环境重大变化"
+    },
+    {
+      "name": "PPI-CPI 剪刀差",
+      "trend_sensitivity": "medium",
+      "momentum_weight": 0.6,
+      "inflection_significance": "important",
+      "alert_on_inflection": true,
+      "rationale": "成本传导指标，拐点预示企业利润拐点"
+    },
+    {
+      "name": "Shibor 期限结构斜率",
+      "trend_sensitivity": "high",
+      "momentum_weight": 0.7,
+      "inflection_significance": "important",
+      "alert_on_inflection": true,
+      "rationale": "流动性预期指标，拐点预示市场预期变化"
+    },
+    {
+      "name": "社融存量增速",
+      "trend_sensitivity": "high",
+      "momentum_weight": 0.8,
+      "inflection_significance": "critical",
+      "alert_on_inflection": true,
+      "rationale": "领先指标，拐点预示信用周期变化"
+    },
+    {
+      "name": "PMI 领先指数",
+      "trend_sensitivity": "high",
+      "momentum_weight": 0.9,
+      "inflection_significance": "critical",
+      "alert_on_inflection": true,
+      "rationale": "领先指标，拐点预示经济周期变化"
+    },
+    {
+      "name": "Shibor-Hibor 利差",
+      "trend_sensitivity": "medium",
+      "momentum_weight": 0.5,
+      "inflection_significance": "moderate",
+      "alert_on_inflection": false,
+      "rationale": "跨境资金流动指标，波动较大，拐点参考价值中等"
+    }
+  ],
+  "output_format": {
+    "per_indicator": {
+      "trend": "increasing | declining | stable",
+      "momentum": "float (-1.0 ~ 1.0)",
+      "inflection_point": "YYYY-MM-DD | null",
+      "rolling_12m_data": "[最近 12 个月数据数组]",
+      "confidence": "high | medium | low (基于数据完整性)"
+    },
+    "aggregated": {
+      "liquidity_environment_trend": "综合流动性环境趋势",
+      "economic_cycle_trend": "综合经济周期趋势",
+      "inflation_cost_trend": "综合通胀成本趋势"
+    }
+  },
+  "data_quality_handling": {
+    "missing_data": {
+      "strategy": "use_available_window",
+      "min_window": 6,
+      "fallback": "如果可用数据 < 6 月，标记 confidence = low，仍计算但附加警告"
+    },
+    "outlier_detection": {
+      "method": "z_score",
+      "threshold": 3.0,
+      "action": "标记异常值但不剔除，在 trend_analysis 中附加 outlier_flag"
+    },
+    "data_lag": {
+      "tolerance": "月度数据滞后 15 天内可接受",
+      "action": "超过 15 天标记 data_stale = true"
+    }
+  },
+  "backtest_validation": {
+    "period": "2023-01-01 ~ 2025-12-31",
+    "metrics": [
+      {
+        "name": "inflection_point_accuracy",
+        "definition": "检测到的拐点与实际市场拐点的时间差",
+        "target": "平均时间差 < 1 个月"
+      },
+      {
+        "name": "trend_consistency",
+        "definition": "趋势判断与实际价格走势的一致性",
+        "target": "一致性 > 70%"
+      },
+      {
+        "name": "leading_indicator_effectiveness",
+        "definition": "领先指标拐点领先股市拐点的时间",
+        "target": "M1-M2 剪刀差领先 3-6 月，PMI 领先指数领先 2-3 月"
+      }
+    ]
+  },
+  "metadata": {
+    "created_at": "2026-04-17",
+    "version": 1,
+    "update_frequency": "与宏观数据采集同步",
+    "computational_cost": "约 5-10 秒/周（12 月窗口 × 6 个指标）"
+  }
+}

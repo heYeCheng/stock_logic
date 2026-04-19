@@ -1,6 +1,6 @@
 """Market layer module for volume-price analysis."""
 
-from src.market.models import SectorScore
+from src.market.models import SectorScore, SectorKeywords
 from src.market.sector_radar import (
     TechnicalScoreCalculator,
     SentimentScoreCalculator,
@@ -17,9 +17,15 @@ from src.market.structure import (
     StructureMarkerService,
     StructureQueries,
 )
+from src.market.keyword_generator import (
+    KeywordGenerator,
+    SectorKeywordService,
+    generate_sector_keywords_job,
+)
 
 __all__ = [
     "SectorScore",
+    "SectorKeywords",
     "TechnicalScoreCalculator",
     "SentimentScoreCalculator",
     "SectorRadarService",
@@ -30,4 +36,7 @@ __all__ = [
     "StructureMarker",
     "StructureMarkerService",
     "StructureQueries",
+    "KeywordGenerator",
+    "SectorKeywordService",
+    "generate_sector_keywords_job",
 ]

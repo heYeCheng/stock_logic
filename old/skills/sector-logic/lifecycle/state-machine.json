@@ -1,0 +1,64 @@
+{
+  "name": "生命周期状态机",
+  "version": 1,
+  "description": "TradingLogic 生命周期 5 阶段状态机定义",
+  "states": [
+    {
+      "id": "discovery",
+      "name": "发现期",
+      "description": "逻辑刚被识别，强度 < 0.4，status = emerging",
+      "entry_condition": "新逻辑被识别",
+      "exit_condition": "strength >= 0.4 且 status = dominant → tracking",
+      "typical_duration_days": "1-14 天",
+      "monitoring_frequency": "daily"
+    },
+    {
+      "id": "tracking",
+      "name": "追踪期",
+      "description": "逻辑被确认，强度 >= 0.4，status = dominant",
+      "entry_condition": "从 discovery 进入",
+      "exit_condition": "strength >= 0.6 且持续 5 天 → monitoring",
+      "typical_duration_days": "2-8 周",
+      "monitoring_frequency": "daily"
+    },
+    {
+      "id": "monitoring",
+      "name": "监控期",
+      "description": "逻辑稳定，强度 >= 0.6，status = dominant",
+      "entry_condition": "从 tracking 进入",
+      "exit_condition": "strength >= 0.75 → confirmation",
+      "typical_duration_days": "1-6 月",
+      "monitoring_frequency": "daily"
+    },
+    {
+      "id": "confirmation",
+      "name": "确认期",
+      "description": "逻辑被市场充分验证，强度 >= 0.75",
+      "entry_condition": "从 monitoring 进入",
+      "exit_condition": "strength < 0.5 → output (逻辑已兑现或瓦解)",
+      "typical_duration_days": "3-12 月",
+      "monitoring_frequency": "daily"
+    },
+    {
+      "id": "output",
+      "name": "输出期",
+      "description": "逻辑已兑现（达到目标）或瓦解（被证伪）",
+      "entry_condition": "strength < 0.3 (瓦解) 或 target_reached (兑现)",
+      "exit_condition": "归档，不再追踪",
+      "typical_duration_days": "N/A",
+      "monitoring_frequency": "N/A"
+    }
+  ],
+  "status_mapping": {
+    "emerging": ["discovery"],
+    "dominant": ["tracking", "monitoring", "confirmation"],
+    "secondary": ["monitoring", "confirmation"],
+    "fading": ["output"],
+    "dead": ["output"]
+  },
+  "metadata": {
+    "created_at": "2026-04-17",
+    "update_frequency": "quarterly",
+    "note": "生命周期管理在板块层，由 SectorAgent 管理"
+  }
+}

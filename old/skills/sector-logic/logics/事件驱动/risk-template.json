@@ -1,0 +1,41 @@
+{
+  "logic_type": "事件驱动",
+  "version": 1,
+  "risk_factors": [
+    {
+      "risk": "事件快速解决",
+      "source": "和平协议、谈判成功、危机解除",
+      "trigger_prompt": "判断以下信号是否构成'事件快速解决'风险：\n- 和平协议签署\n- 谈判取得突破性进展\n- 官方宣布危机解除\n输出：true/false + 理由",
+      "action": "直接降低事件强度 → 可能触发翻转（如美伊冲突缓和）",
+      "suggestion": "离场"
+    },
+    {
+      "risk": "影响被稀释",
+      "source": "市场注意力转移、更大事件出现",
+      "trigger_prompt": "判断以下信号是否构成'影响被稀释'风险：\n- 媒体关注度大幅下降\n- 市场出现更大热点事件\n- 搜索指数快速回落\n输出：true/false + 理由",
+      "action": "降低事件关注度分数 → 降低 logic_strength",
+      "suggestion": "减仓"
+    },
+    {
+      "risk": "被更大事件覆盖",
+      "source": "新突发事件强度比较",
+      "trigger_prompt": "判断以下信号是否构成'被更大事件覆盖'风险：\n- 新突发事件强度超过当前事件 2 倍以上\n- 媒体焦点完全转移\n- 政策应对重心转移\n输出：true/false + 理由",
+      "action": "事件层降级 → 标记被覆盖",
+      "suggestion": "减仓"
+    },
+    {
+      "risk": "事件升级失控",
+      "source": "冲突扩大、危机加深",
+      "trigger_prompt": "判断以下信号是否构成'事件升级失控'风险：\n- 冲突范围扩大\n- 伤亡人数大幅增加\n- 多方卷入\n输出：true/false + 理由",
+      "action": "更新事件强度 → 可能增强或减弱（取决于事件性质）",
+      "suggestion": "观察"
+    },
+    {
+      "risk": "事件证伪",
+      "source": "最初信息被证明不准确",
+      "trigger_prompt": "判断以下信号是否构成'事件证伪'风险：\n- 最初信息源被证实造假\n- 官方辟谣\n- 关键证据被推翻\n输出：true/false + 理由",
+      "action": "直接标记逻辑失效 → status = \"dead\"",
+      "suggestion": "离场"
+    }
+  ]
+}

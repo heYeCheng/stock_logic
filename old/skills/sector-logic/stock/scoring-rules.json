@@ -1,0 +1,100 @@
+{
+  "name": "个股评分计算规则",
+  "version": 1,
+  "description": "个股四维雷达图各维度的具体评分计算规则",
+  "scoring_rules": {
+    "逻辑面": {
+      "sector_logic_inheritance": {
+        "formula": "sector_logic_strength × stock_sector_relevance",
+        "relevance_levels": {
+          "core": 1.0,
+          "related": 0.7,
+          "peripheral": 0.4
+        },
+        "description": "个股与板块逻辑的相关性：核心标的/相关标的/边缘标的"
+      },
+      "individual_logic_bonus": {
+        "formula": "individual_logic_score × 0.3",
+        "max_bonus": 0.3,
+        "description": "个股特有逻辑加分（如新产品、新客户、管理层变更等）"
+      },
+      "final_formula": "min(1.0, sector_logic_inheritance + individual_logic_bonus)"
+    },
+    "基本面": {
+      "pe_score": {
+        "formula": "10 × (1 - pe_percentile)",
+        "pe_percentile": "当前 PE 在过去 3 年的百分位 (0-1)",
+        "weight": 0.25
+      },
+      "pb_score": {
+        "formula": "10 × (1 - pb_percentile)",
+        "pb_percentile": "当前 PB 在过去 3 年的百分位 (0-1)",
+        "weight": 0.2
+      },
+      "roe_score": {
+        "formula": "min(10, ROE / 1.5)",
+        "description": "ROE > 15% 得 10 分，ROE < 5% 得 0 分",
+        "weight": 0.25
+      },
+      "growth_score": {
+        "formula": "min(10, revenue_growth / 2)",
+        "description": "营收增速 > 20% 得 10 分，增速 < 0% 得 0 分",
+        "weight": 0.2
+      },
+      "margin_score": {
+        "formula": "5 + (gross_margin - industry_avg) × 10",
+        "description": "毛利率高于行业平均得高分",
+        "weight": 0.1
+      },
+      "final_formula": "pe_score×0.25 + pb_score×0.2 + roe_score×0.25 + growth_score×0.2 + margin_score×0.1"
+    },
+    "技术面": {
+      "ma_score": {
+        "formula": "price > ma20 ? (price > ma60 ? 10 : 7) : (price > ma60 ? 5 : 3)",
+        "weight": 0.3
+      },
+      "volume_score": {
+        "formula": "avg_volume_5d / avg_volume_20d > 1.5 ? 10 : avg_volume_5d / avg_volume_20d > 1 ? 7 : 4",
+        "description": "5 日均量/20 日均量 > 1.5 得 10 分",
+        "weight": 0.25
+      },
+      "momentum_score": {
+        "formula": "5 + (pct_chg_20d + 10) / 2",
+        "description": "20 日涨幅在 -10% 到 +10% 之间得 5-10 分，暴涨 (>30%) 反而低分",
+        "clamp": "max 8 for pct_chg > 30%",
+        "weight": 0.25
+      },
+      "rsi_score": {
+        "formula": "rsi > 70 ? 4 : rsi < 30 ? 6 : 8",
+        "description": "RSI 超买 (70+) 低分，超卖 (30-) 中分，正常 8 分",
+        "weight": 0.2
+      },
+      "final_formula": "ma_score×0.3 + volume_score×0.25 + momentum_score×0.25 + rsi_score×0.2"
+    },
+    "情绪面": {
+      "news_sentiment_score": {
+        "formula": "finbert_score × 10",
+        "finbert_score": "FinBERT 情绪评分 (-1 到 1)",
+        "weight": 0.4
+      },
+      "news_volume_score": {
+        "formula": "min(10, positive_news_count / 3)",
+        "description": "每 3 条正面新闻得 1 分，最多 10 分",
+        "weight": 0.3
+      },
+      "search_score": {
+        "formula": "search_index_7d / search_index_30d > 1.5 ? 10 : search_index_7d / search_index_30d > 1 ? 7 : 4",
+        "description": "7 日搜索指数/30 日搜索指数 > 1.5 得 10 分",
+        "weight": 0.3
+      },
+      "final_formula": "news_sentiment_score×0.4 + news_volume_score×0.3 + search_score×0.3"
+    }
+  },
+  "aggregation": {
+    "stock_thesis_score_formula": "逻辑面×0.3 + 基本面×0.25 + 技术面×0.25 + 情绪面×0.2",
+    "normalization": "所有维度分数归一化到 0-10，最终 stock_thesis_score 归一化到 0-1"
+  },
+  "metadata": {
+    "created_at": "2026-04-17"
+  }
+}

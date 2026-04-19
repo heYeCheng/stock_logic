@@ -1,0 +1,41 @@
+{
+  "logic_type": "估值重构",
+  "version": 1,
+  "risk_factors": [
+    {
+      "risk": "估值修复完成",
+      "source": "PE/PB 回到历史均值或分位数",
+      "trigger_prompt": "判断以下信号是否构成'估值修复完成'风险：\n- PE/PB 回到历史中位数以上\n- 估值分位数超过 70%\n- 相对估值优势消失\n输出：true/false + 理由",
+      "action": "降低重构空间 → 降低 logic_strength",
+      "suggestion": "减仓"
+    },
+    {
+      "risk": "市场拒绝重估",
+      "source": "资金不流入、估值继续压缩",
+      "trigger_prompt": "判断以下信号是否构成'市场拒绝重估'风险：\n- 资金连续净流出\n- 估值继续压缩而非扩张\n- 市场情绪持续悲观\n输出：true/false + 理由",
+      "action": "直接触发翻转检测",
+      "suggestion": "离场"
+    },
+    {
+      "risk": "基本面继续恶化拖累估值",
+      "source": "财报数据、盈利预警",
+      "trigger_prompt": "判断以下信号是否构成'基本面继续恶化拖累估值'风险：\n- 财报数据大幅低于预期\n- 盈利预警发布\n- 现金流恶化\n输出：true/false + 理由",
+      "action": "降低基本面支撑分数 → 降低 logic_strength",
+      "suggestion": "离场"
+    },
+    {
+      "risk": "估值锚点变化",
+      "source": "无风险利率变化、风险溢价变化",
+      "trigger_prompt": "判断以下信号是否构成'估值锚点变化'风险：\n- 无风险利率快速上行\n- 风险溢价大幅走阔\n- 全球估值体系重构\n输出：true/false + 理由",
+      "action": "重新计算合理估值区间 → 更新 logic_strength",
+      "suggestion": "减仓"
+    },
+    {
+      "risk": "流动性收紧压制估值",
+      "source": "利率数据、资金面数据",
+      "trigger_prompt": "判断以下信号是否构成'流动性收紧压制估值'风险：\n- 利率快速上行\n- 资金面持续紧张\n- 央行收紧信号\n输出：true/false + 理由",
+      "action": "标记流动性风险 → 降低 logic_strength",
+      "suggestion": "减仓"
+    }
+  ]
+}

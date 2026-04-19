@@ -1,0 +1,41 @@
+{
+  "logic_type": "竞争格局变化",
+  "version": 1,
+  "risk_factors": [
+    {
+      "risk": "新进入者颠覆格局",
+      "source": "新玩家融资、产品发布、市场份额",
+      "trigger_prompt": "判断以下信号是否构成'新进入者颠覆格局'风险：\n- 新进入者获得大额融资\n- 产品发布即获市场认可\n- 市场份额快速提升\n输出：true/false + 理由",
+      "action": "降低格局确定性分数 → 降低 logic_strength",
+      "suggestion": "减仓"
+    },
+    {
+      "risk": "龙头地位动摇",
+      "source": "龙头财报、市场份额变化、管理层变动",
+      "trigger_prompt": "判断以下信号是否构成'龙头地位动摇'风险：\n- 龙头财报大幅低于预期\n- 市场份额连续下滑\n- 核心管理层离职\n输出：true/false + 理由",
+      "action": "降低龙头确认分数 → 降低 logic_strength",
+      "suggestion": "减仓"
+    },
+    {
+      "risk": "反垄断/反不正当竞争",
+      "source": "监管文件、处罚公告",
+      "trigger_prompt": "判断以下信号是否构成'反垄断/反不正当竞争'风险：\n- 监管机构立案调查\n- 处罚公告发布\n- 反垄断文件出台\n输出：true/false + 理由",
+      "action": "标记政策风险 → 降低 logic_strength",
+      "suggestion": "离场"
+    },
+    {
+      "risk": "行业合并改变格局",
+      "source": "合并公告、反垄断审查",
+      "trigger_prompt": "判断以下信号是否构成'行业合并改变格局'风险：\n- 主要厂商宣布合并\n- 反垄断审查通过\n- 合并后市占率大幅提升\n输出：true/false + 理由",
+      "action": "重新评估格局 → 更新 logic_strength",
+      "suggestion": "观察"
+    },
+    {
+      "risk": "海外竞争者进入",
+      "source": "外资进入公告、进口数据",
+      "trigger_prompt": "判断以下信号是否构成'海外竞争者进入'风险：\n- 外资巨头宣布进入\n- 进口数据大幅增加\n- 关税壁垒降低\n输出：true/false + 理由",
+      "action": "降低国产优势分数 → 降低 logic_strength",
+      "suggestion": "减仓"
+    }
+  ]
+}

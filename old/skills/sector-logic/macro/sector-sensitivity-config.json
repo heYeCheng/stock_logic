@@ -1,0 +1,348 @@
+{
+  "name": "板块敏感度配置（指标级别）",
+  "version": 2,
+  "description": "Top15 板块对宏观五维度及具体指标的敏感度配置，用于计算 sector_macro_adjustment",
+  "sectors": [
+    {
+      "sector": "黄金",
+      "sensitivity": {
+        "liquidity_environment": {
+          "m1_m2_scissors": 0.9,
+          "shibor_term_structure": 0.7,
+          "social_financing_growth": 0.5,
+          "shibor_hibor_spread": 0.4
+        },
+        "economic_cycle_position": {
+          "pmi_leading_index": -0.5,
+          "pmi_inventory_cycle": -0.3
+        },
+        "inflation_and_cost": {
+          "ppi_cpi_scissors": 0.6,
+          "pmi_price_index": 0.4
+        },
+        "policy_direction": 0.3,
+        "global_linkage": {
+          "fed_funds_rate": -0.8,
+          "treasury_10y": -0.7,
+          "geopolitical_risk": 0.9,
+          "tariff_risk": 0.2
+        }
+      },
+      "description": "避险资产，流动性宽松+地缘风险受益，经济过热+美联储加息承压"
+    },
+    {
+      "sector": "AI/算力",
+      "sensitivity": {
+        "liquidity_environment": {
+          "m1_m2_scissors": 0.6,
+          "shibor_term_structure": 0.5,
+          "social_financing_growth": 0.7,
+          "shibor_hibor_spread": 0.3
+        },
+        "economic_cycle_position": {
+          "pmi_leading_index": 0.5,
+          "pmi_inventory_cycle": 0.3
+        },
+        "inflation_and_cost": {
+          "ppi_cpi_scissors": -0.3,
+          "pmi_price_index": -0.2
+        },
+        "policy_direction": 0.9,
+        "global_linkage": {
+          "fed_funds_rate": -0.5,
+          "ism_pmi": 0.6,
+          "tariff_risk": -0.7
+        }
+      },
+      "description": "科技成长板块，流动性宽松+政策支持受益，成本上升+关税风险承压"
+    },
+    {
+      "sector": "银行",
+      "sensitivity": {
+        "liquidity_environment": {
+          "m1_m2_scissors": -0.4,
+          "shibor_term_structure": 0.5,
+          "social_financing_growth": 0.6,
+          "shibor_hibor_spread": 0.2
+        },
+        "economic_cycle_position": {
+          "pmi_leading_index": 0.7,
+          "pmi_inventory_cycle": 0.5
+        },
+        "inflation_and_cost": {
+          "ppi_cpi_scissors": 0.3,
+          "pmi_price_index": 0.2
+        },
+        "policy_direction": 0.6,
+        "global_linkage": {
+          "fed_funds_rate": 0.4,
+          "treasury_10y": 0.3
+        }
+      },
+      "description": "流动性过松压缩息差（负敏感），经济扩张+期限利差扩大受益"
+    },
+    {
+      "sector": "新能源车",
+      "sensitivity": {
+        "liquidity_environment": {
+          "m1_m2_scissors": 0.5,
+          "social_financing_growth": 0.6
+        },
+        "economic_cycle_position": {
+          "pmi_leading_index": 0.7,
+          "pmi_inventory_cycle": 0.8
+        },
+        "inflation_and_cost": {
+          "ppi_cpi_scissors": -0.5,
+          "pmi_price_index": -0.4
+        },
+        "policy_direction": 0.7,
+        "global_linkage": {
+          "tariff_risk": -0.6
+        }
+      },
+      "description": "补库存周期+政策支持受益，成本压力+关税风险承压"
+    },
+    {
+      "sector": "消费",
+      "sensitivity": {
+        "liquidity_environment": {
+          "m1_m2_scissors": 0.4,
+          "social_financing_growth": 0.5
+        },
+        "economic_cycle_position": {
+          "pmi_leading_index": 0.8,
+          "pmi_inventory_cycle": 0.6
+        },
+        "inflation_and_cost": {
+          "ppi_cpi_scissors": -0.4,
+          "pmi_price_index": -0.3
+        },
+        "policy_direction": 0.6,
+        "global_linkage": {
+          "fed_funds_rate": -0.2
+        }
+      },
+      "description": "经济复苏+消费政策受益，成本上升承压"
+    },
+    {
+      "sector": "房地产",
+      "sensitivity": {
+        "liquidity_environment": {
+          "m1_m2_scissors": 0.7,
+          "shibor_term_structure": 0.6,
+          "social_financing_growth": 0.8
+        },
+        "economic_cycle_position": {
+          "pmi_leading_index": 0.5
+        },
+        "inflation_and_cost": {
+          "ppi_cpi_scissors": -0.3
+        },
+        "policy_direction": 0.9,
+        "global_linkage": {
+          "fed_funds_rate": -0.3
+        }
+      },
+      "description": "流动性宽松+政策放松高度受益"
+    },
+    {
+      "sector": "半导体",
+      "sensitivity": {
+        "liquidity_environment": {
+          "m1_m2_scissors": 0.6,
+          "social_financing_growth": 0.7
+        },
+        "economic_cycle_position": {
+          "pmi_leading_index": 0.6
+        },
+        "inflation_and_cost": {
+          "ppi_cpi_scissors": -0.4
+        },
+        "policy_direction": 0.8,
+        "global_linkage": {
+          "fed_funds_rate": -0.6,
+          "ism_pmi": 0.7,
+          "tariff_risk": -0.9
+        }
+      },
+      "description": "政策支持+全球需求受益，关税风险高度承压"
+    },
+    {
+      "sector": "医药",
+      "sensitivity": {
+        "liquidity_environment": {
+          "m1_m2_scissors": 0.3,
+          "social_financing_growth": 0.4
+        },
+        "economic_cycle_position": {
+          "pmi_leading_index": 0.2
+        },
+        "inflation_and_cost": {
+          "ppi_cpi_scissors": -0.2
+        },
+        "policy_direction": 0.7,
+        "global_linkage": {
+          "fed_funds_rate": -0.3
+        }
+      },
+      "description": "防御性板块，对宏观敏感度相对较低，政策影响为主"
+    },
+    {
+      "sector": "煤炭/能源",
+      "sensitivity": {
+        "liquidity_environment": {
+          "m1_m2_scissors": 0.3
+        },
+        "economic_cycle_position": {
+          "pmi_leading_index": 0.7,
+          "pmi_inventory_cycle": 0.6
+        },
+        "inflation_and_cost": {
+          "ppi_cpi_scissors": 0.8,
+          "pmi_price_index": 0.7
+        },
+        "policy_direction": 0.4,
+        "global_linkage": {
+          "geopolitical_risk": 0.7
+        }
+      },
+      "description": "经济扩张+通胀上行受益，PPI-CPI 剪刀差扩大时定价权强"
+    },
+    {
+      "sector": "有色金属",
+      "sensitivity": {
+        "liquidity_environment": {
+          "m1_m2_scissors": 0.5,
+          "social_financing_growth": 0.6
+        },
+        "economic_cycle_position": {
+          "pmi_leading_index": 0.8,
+          "pmi_inventory_cycle": 0.7
+        },
+        "inflation_and_cost": {
+          "ppi_cpi_scissors": 0.7
+        },
+        "policy_direction": 0.3,
+        "global_linkage": {
+          "fed_funds_rate": -0.4,
+          "geopolitical_risk": 0.5
+        }
+      },
+      "description": "经济扩张+补库存周期受益，全球大宗商品价格敏感"
+    },
+    {
+      "sector": "军工",
+      "sensitivity": {
+        "liquidity_environment": {
+          "m1_m2_scissors": 0.4
+        },
+        "economic_cycle_position": {
+          "pmi_leading_index": 0.3
+        },
+        "inflation_and_cost": {
+          "ppi_cpi_scissors": -0.3
+        },
+        "policy_direction": 0.8,
+        "global_linkage": {
+          "geopolitical_risk": 0.9,
+          "tariff_risk": 0.3
+        }
+      },
+      "description": "地缘风险+政策支持受益，成本上升承压"
+    },
+    {
+      "sector": "食品饮料",
+      "sensitivity": {
+        "liquidity_environment": {
+          "m1_m2_scissors": 0.4,
+          "social_financing_growth": 0.5
+        },
+        "economic_cycle_position": {
+          "pmi_leading_index": 0.6
+        },
+        "inflation_and_cost": {
+          "ppi_cpi_scissors": -0.4
+        },
+        "policy_direction": 0.6,
+        "global_linkage": {
+          "fed_funds_rate": -0.2
+        }
+      },
+      "description": "消费复苏受益，成本上升承压"
+    },
+    {
+      "sector": "农林牧渔",
+      "sensitivity": {
+        "liquidity_environment": {
+          "m1_m2_scissors": 0.3
+        },
+        "economic_cycle_position": {
+          "pmi_leading_index": 0.4
+        },
+        "inflation_and_cost": {
+          "ppi_cpi_scissors": 0.5
+        },
+        "policy_direction": 0.7,
+        "global_linkage": {
+          "geopolitical_risk": 0.4
+        }
+      },
+      "description": "政策支持+通胀上行受益"
+    },
+    {
+      "sector": "电力/公用事业",
+      "sensitivity": {
+        "liquidity_environment": {
+          "m1_m2_scissors": 0.2,
+          "shibor_term_structure": 0.4
+        },
+        "economic_cycle_position": {
+          "pmi_leading_index": 0.3
+        },
+        "inflation_and_cost": {
+          "ppi_cpi_scissors": -0.3
+        },
+        "policy_direction": 0.6,
+        "global_linkage": {
+          "fed_funds_rate": -0.2
+        }
+      },
+      "description": "防御性板块，利率下降受益"
+    },
+    {
+      "sector": "传媒/游戏",
+      "sensitivity": {
+        "liquidity_environment": {
+          "m1_m2_scissors": 0.5
+        },
+        "economic_cycle_position": {
+          "pmi_leading_index": 0.4
+        },
+        "inflation_and_cost": {
+          "ppi_cpi_scissors": -0.2
+        },
+        "policy_direction": 0.8,
+        "global_linkage": {
+          "fed_funds_rate": -0.3
+        }
+      },
+      "description": "政策监管敏感，流动性宽松受益"
+    }
+  ],
+  "calculation_method": {
+    "formula": "sector_macro_adjustment = Σ(indicator_impact × indicator_sensitivity) / N",
+    "example": "黄金板块在复苏期：\n  流动性环境影响 = (M1-M2剪刀差影响 +0.3 × 敏感度 +0.9) + (Shibor期限结构影响 +0.2 × 敏感度 +0.7) = +0.41\n  经济周期影响 = (PMI领先指数影响 +0.5 × 敏感度 -0.5) = -0.25\n  通胀成本影响 = (PPI-CPI剪刀差影响 +0.4 × 敏感度 +0.6) = +0.24\n  政策方向影响 = +0.1 × +0.3 = +0.03\n  全球联动影响 = (Fed Rate影响 -0.3 × 敏感度 -0.8) + (地缘风险 +0.6 × 敏感度 +0.9) = +0.78\n  sector_macro_adjustment = (+0.41 - 0.25 + 0.24 + 0.03 + 0.78) / 5 = +0.24 → 截断至 +0.2",
+    "range": "-0.2 ~ +0.2",
+    "truncation": "超出范围时截断到边界值"
+  },
+  "metadata": {
+    "created_at": "2026-04-17",
+    "version": 2,
+    "update_frequency": "quarterly",
+    "version_history": [
+      {"version": 1, "date": "2026-04-17", "changes": "初始版本，地域级别敏感度"},
+      {"version": 2, "date": "2026-04-17", "changes": "Phase 2.5 增强：细化到指标级别敏感度"}
+    ]
+  }
+}

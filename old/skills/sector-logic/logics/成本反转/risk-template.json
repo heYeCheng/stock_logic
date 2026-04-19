@@ -1,0 +1,41 @@
+{
+  "logic_type": "成本反转",
+  "version": 1,
+  "risk_factors": [
+    {
+      "risk": "成本趋势反转",
+      "source": "原材料价格数据、大宗商品价格",
+      "trigger_prompt": "判断以下信号是否构成'成本趋势反转'风险：\n- 原材料价格连续 3 月上涨\n- 大宗商品价格突破关键阻力位\n- 成本占比重新上升\n输出：true/false + 理由",
+      "action": "直接降低成本反转分数 → 可能触发翻转",
+      "suggestion": "离场"
+    },
+    {
+      "risk": "成本下降被需求下降抵消",
+      "source": "销量数据、利润数据",
+      "trigger_prompt": "判断以下信号是否构成'成本下降被需求下降抵消'风险：\n- 销量同比大幅下滑\n- 利润未因成本下降而改善\n- 量跌价升\n输出：true/false + 理由",
+      "action": "降低净效应预期 → 降低 logic_strength",
+      "suggestion": "减仓"
+    },
+    {
+      "risk": "成本下降传导不畅",
+      "source": "毛利率数据、定价权变化",
+      "trigger_prompt": "判断以下信号是否构成'成本下降传导不畅'风险：\n- 毛利率未改善\n- 定价权丧失\n- 成本传导时滞超过 6 月\n输出：true/false + 理由",
+      "action": "降低传导效率分数 → 降低 logic_strength",
+      "suggestion": "观察"
+    },
+    {
+      "risk": "替代品成本更低",
+      "source": "替代技术成本数据",
+      "trigger_prompt": "判断以下信号是否构成'替代品成本更低'风险：\n- 替代技术成本下降更快\n- 替代品性价比优势扩大\n- 客户转向替代品\n输出：true/false + 理由",
+      "action": "降低成本优势预期 → 降低 logic_strength",
+      "suggestion": "减仓"
+    },
+    {
+      "risk": "成本下降速度不及预期",
+      "source": "产能利用率、成本曲线",
+      "trigger_prompt": "判断以下信号是否构成'成本下降速度不及预期'风险：\n- 产能利用率持续下降\n- 成本曲线位置上移\n- 成本下降幅度低于预期 50%\n输出：true/false + 理由",
+      "action": "降低时间性预期 → 降低 logic_strength",
+      "suggestion": "观察"
+    }
+  ]
+}

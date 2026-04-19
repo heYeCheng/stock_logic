@@ -1,0 +1,82 @@
+{
+  "name": "宏观状态分类与事件触发规则",
+  "version": 1,
+  "description": "定义 macro_state 分类标准和事件触发重跑规则",
+  "state_classification": {
+    "loose": {
+      "min_score": 0.7,
+      "description": "宽松有利环境，股市利好",
+      "policy_hint": "继续观察，可适当提高仓位"
+    },
+    "neutral": {
+      "min_score": 0.4,
+      "max_score": 0.7,
+      "description": "中性环境，无明显方向",
+      "policy_hint": "保持中性仓位，精选个股"
+    },
+    "tight": {
+      "max_score": 0.4,
+      "description": "紧缩不利环境，股市利空",
+      "policy_hint": "降低仓位，防御为主"
+    }
+  },
+  "event_triggered_update_rules": {
+    "description": "当以下事件触发时，立即重跑宏观评估（不受周更限制）",
+    "rules": [
+      {
+        "id": "fed_rate_change",
+        "trigger": "美联储加息/降息超过 25BP",
+        "data_source": "Fed 官网、Tushare",
+        "threshold": 0.25,
+        "action": "立即重跑 MacroAnalyzer"
+      },
+      {
+        "id": "china_rate_change",
+        "trigger": "中国央行降准/降息",
+        "data_source": "央行官网、Tushare",
+        "threshold": 0.1,
+        "action": "立即重跑 MacroAnalyzer"
+      },
+      {
+        "id": "tariff_change",
+        "trigger": "中美关税政策重大变化",
+        "data_source": "USTR 官网、gov.cn",
+        "threshold": null,
+        "action": "立即重跑 MacroAnalyzer"
+      },
+      {
+        "id": "geopolitical_conflict",
+        "trigger": "地缘政治冲突升级",
+        "data_source": "新闻、Polymarket",
+        "threshold": null,
+        "action": "立即重跑 MacroAnalyzer"
+      },
+      {
+        "id": "polymarket_large_move",
+        "trigger": "Polymarket 关键市场概率变化超过 20%",
+        "data_source": "Polymarket API",
+        "threshold": 0.2,
+        "markets": ["us-china-tariffs", "fed-rate-decision", "recession-2026"],
+        "action": "立即重跑 MacroAnalyzer"
+      },
+      {
+        "id": "pmi_surprise",
+        "trigger": "中国/美国 PMI 超预期或低于预期超过 2 个点",
+        "data_source": "统计局、ISM",
+        "threshold": 2.0,
+        "action": "立即重跑 MacroAnalyzer"
+      },
+      {
+        "id": "nonfarm_surprise",
+        "trigger": "美国非农就业超预期或低于预期超过 10 万",
+        "data_source": "BLS、Tushare",
+        "threshold": 100000,
+        "action": "立即重跑 MacroAnalyzer"
+      }
+    ]
+  },
+  "metadata": {
+    "created_at": "2026-04-17",
+    "update_frequency": "quarterly"
+  }
+}

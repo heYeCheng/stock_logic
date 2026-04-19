@@ -1,0 +1,54 @@
+{
+  "name": "个股四维雷达图配置",
+  "version": 1,
+  "description": "个股层四维雷达图评估框架：逻辑面/基本面/技术面/情绪面（不含资金面）",
+  "dimensions": [
+    {
+      "name": "逻辑面",
+      "weight": 0.3,
+      "data_source": "板块逻辑结果、个股与板块逻辑一致性",
+      "scoring_rules": {
+        "sector_logic_alignment": "个股所属板块的 sector_logic_strength × 个股与逻辑相关性",
+        "logic_thesis_score": "个股自身逻辑论证强度",
+        "description": "逻辑面继承板块逻辑，强调一致性"
+      }
+    },
+    {
+      "name": "基本面",
+      "weight": 0.25,
+      "data_source": "Tushare/AKShare：PE/PB/ROE/营收增速/毛利率",
+      "scoring_rules": {
+        "pe_percentile": "PE 在过去 3 年百分位，越低分越高",
+        "pb_percentile": "PB 在过去 3 年百分位，越低分越高",
+        "roe": "ROE > 15% 得高分",
+        "revenue_growth": "营收增速 > 20% 得高分",
+        "gross_margin_trend": "毛利率趋势向上得高分"
+      }
+    },
+    {
+      "name": "技术面",
+      "weight": 0.25,
+      "data_source": "行情数据：OHLCV、均线、MACD、RSI",
+      "scoring_rules": {
+        "price_vs_ma": "股价在 20 日/60 日均线上方得高分",
+        "volume_trend": "成交量放大得高分",
+        "momentum": "近期涨幅适度（非暴涨）得高分",
+        "support_resistance": "接近支撑位得高分"
+      }
+    },
+    {
+      "name": "情绪面",
+      "weight": 0.2,
+      "data_source": "FinBERT 新闻情绪、搜索指数",
+      "scoring_rules": {
+        "news_sentiment": "FinBERT 情绪评分 > 0.6 得高分",
+        "news_volume": "正面新闻数量增加得高分",
+        "search_trend": "搜索指数上升得高分"
+      }
+    }
+  ],
+  "metadata": {
+    "created_at": "2026-04-17",
+    "note": "个股层不包含资金面维度，因为个股资金流易被庄家操控"
+  }
+}

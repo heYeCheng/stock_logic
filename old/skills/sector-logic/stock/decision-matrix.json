@@ -1,0 +1,64 @@
+{
+  "name": "个股决策矩阵",
+  "version": 1,
+  "description": "根据 stock_thesis_score 和 Buffett 过滤器结果，将个股分为三层：重点关注/观察/其余",
+  "tier_thresholds": {
+    "重点关注": {
+      "min_stock_thesis_score": 0.7,
+      "buffett_filter": "pass",
+      "color": "red",
+      "description": "强烈推荐，优先配置",
+      "action_hint": "可建立主要仓位"
+    },
+    "观察名单": {
+      "min_stock_thesis_score": 0.5,
+      "max_stock_thesis_score": 0.7,
+      "buffett_filter": "pass",
+      "color": "orange",
+      "description": "值得观察，等待更好买点",
+      "action_hint": "加入自选，等待回调"
+    },
+    "其余": {
+      "default": true,
+      "color": "gray",
+      "description": "暂不关注或存在明显缺陷",
+      "action_hint": "保持观察或忽略"
+    }
+  },
+  "buffett_filter_override": {
+    "description": "Buffett 定性过滤器强制降级规则",
+    "rules": [
+      {
+        "condition": "buffett_filter = fail",
+        "action": "强制降入'其余'层，无论 stock_thesis_score 多高",
+        "reason": "定性因素存在重大缺陷"
+      },
+      {
+        "condition": "buffett_filter = pass_with_concerns",
+        "action": "最高只能进入'观察名单'层，不能进入'重点关注'",
+        "reason": "定性因素存在一定担忧"
+      }
+    ]
+  },
+  "special_cases": {
+    "new_listed_stock": {
+      "condition": "上市时间 < 6 个月",
+      "action": "默认归入'其余'层，除非 stock_thesis_score > 0.85 且 buffett_filter = pass",
+      "reason": "新股数据不足，需要更长时间观察"
+    },
+    "st_stock": {
+      "condition": "ST 或*ST 股票",
+      "action": "默认归入'其余'层",
+      "reason": "风险警示股票，默认排除"
+    },
+    "suspended_stock": {
+      "condition": "停牌股票",
+      "action": "不参与选股",
+      "reason": "无法交易"
+    }
+  },
+  "metadata": {
+    "created_at": "2026-04-17",
+    "update_frequency": "quarterly"
+  }
+}

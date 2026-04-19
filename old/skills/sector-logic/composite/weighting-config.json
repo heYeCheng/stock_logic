@@ -1,0 +1,38 @@
+{
+  "name": "综合决策权重配置",
+  "version": 1,
+  "description": "三层分数组合权重配置",
+  "weighting_config": {
+    "stock_weight": 0.5,
+    "sector_weight": 0.3,
+    "macro_weight": 0.2,
+    "formula": "recommend_score = stock_thesis_score × 0.5 + sector_logic_strength × 0.3 + sector_macro_adjustment × 0.2",
+    "description": "个股分数占 50%，板块分数占 30%，宏观调整占 20%"
+  },
+  "sector_logic_inheritance": {
+    "description": "个股继承板块逻辑的规则",
+    "core_stock": {
+      "relevance": 1.0,
+      "description": "板块核心标的，完全继承板块逻辑强度"
+    },
+    "related_stock": {
+      "relevance": 0.7,
+      "description": "板块相关标的，部分继承板块逻辑强度"
+    },
+    "peripheral_stock": {
+      "relevance": 0.4,
+      "description": "板块边缘标的，少量继承板块逻辑强度"
+    }
+  },
+  "macro_adjustment_application": {
+    "description": "宏观调整分的应用方式",
+    "formula": "sector_macro_adjustment = (macro_thesis_score - 0.5) × sector_sensitivity × 0.3",
+    "range": "-0.15 到 +0.15",
+    "example": "macro_thesis_score = 0.8, sector_sensitivity = 0.8 → adjustment = (0.8-0.5)×0.8×0.3 = 0.072"
+  },
+  "metadata": {
+    "created_at": "2026-04-17",
+    "update_frequency": "quarterly",
+    "note": "权重可根据市场风格调整，牛市可提高 stock_weight，熊市可提高 macro_weight"
+  }
+}

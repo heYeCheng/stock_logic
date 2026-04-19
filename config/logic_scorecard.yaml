@@ -1,0 +1,28 @@
+"""Configuration for logic scorecard rules."""
+
+# Default scorecard configuration
+# Can be overridden by config/logic_scorecard.yaml
+
+scoring:
+  importance_multipliers:
+    high: 1.5
+    medium: 1.0
+    low: 0.5
+
+  decay:
+    daily_rate: 0.95      # 5% daily decay
+    half_life_days: 14    # ~14 days to 50%
+
+  validity:
+    default_days: 30
+    by_family:
+      technology: 45      # Tech logics last longer
+      policy: 60          # Policy logics last longest
+      earnings: 21        # Earnings fade quickly
+      m_a: 30
+      supply_chain: 30
+
+  thresholds:
+    confidence_min: 0.6   # Reject LLM confidence < 0.6
+    strength_min: 0.1     # Ignore very weak events
+    strength_max: 1.0     # Cap maximum strength

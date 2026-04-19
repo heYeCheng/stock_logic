@@ -1,0 +1,41 @@
+{
+  "logic_type": "政策驱动",
+  "version": 1,
+  "risk_factors": [
+    {
+      "risk": "政策方向反转",
+      "source": "政府文件、部委表态、高层会议",
+      "trigger_prompt": "判断以下信号是否构成'政策方向反转'风险：\n- 更高层级文件覆盖或否定原政策\n- 部委表态发生明显转向\n- 高层会议删除原政策表述\n输出：true/false + 理由",
+      "action": "直接降低 policy 维度分数 → 可能触发翻转",
+      "suggestion": "离场"
+    },
+    {
+      "risk": "执行力度不及预期",
+      "source": "地方配套政策、资金到位、实施进度",
+      "trigger_prompt": "判断以下信号是否构成'执行力度不及预期'风险：\n- 地方配套政策迟迟未出台\n- 资金到位率低于 50%\n- 实施进度大幅滞后于时间表\n输出：true/false + 理由",
+      "action": "降低执行确认分数 → 降低 logic_strength",
+      "suggestion": "减仓"
+    },
+    {
+      "risk": "被更高层政策否决",
+      "source": "国务院/中央文件覆盖部委政策",
+      "trigger_prompt": "判断以下信号是否构成'被更高层政策否决'风险：\n- 国务院文件明确否定部委政策\n- 中央文件删除相关政策表述\n- 监管机构叫停政策实施\n输出：true/false + 理由",
+      "action": "直接触发翻转检测",
+      "suggestion": "离场"
+    },
+    {
+      "risk": "政策窗口期结束",
+      "source": "政策文件明确有效期、阶段性目标达成",
+      "trigger_prompt": "判断以下信号是否构成'政策窗口期结束'风险：\n- 政策文件明确有效期到期\n- 阶段性目标已达成\n- 官方表态政策进入尾声\n输出：true/false + 理由",
+      "action": "降低政策持续性分数 → 降低 logic_strength",
+      "suggestion": "减仓"
+    },
+    {
+      "risk": "国际政策对抗",
+      "source": "制裁、关税、出口管制",
+      "trigger_prompt": "判断以下信号是否构成'国际政策对抗'风险：\n- 主要经济体实施制裁\n- 加征关税影响出口\n- 出口管制限制技术\n输出：true/false + 理由",
+      "action": "标记外部风险 → 降低 logic_strength",
+      "suggestion": "减仓"
+    }
+  ]
+}

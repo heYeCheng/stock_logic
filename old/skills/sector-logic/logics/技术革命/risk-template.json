@@ -1,0 +1,41 @@
+{
+  "logic_type": "技术革命",
+  "version": 1,
+  "risk_factors": [
+    {
+      "risk": "技术路线失败",
+      "source": "学术论文撤回、产品失败、测试未通过",
+      "trigger_prompt": "判断以下信号是否构成'技术路线失败'风险：\n- 核心学术论文撤回\n- 产品测试失败\n- 关键技术指标未达成\n输出：true/false + 理由",
+      "action": "直接降低技术可行性分数 → 可能触发翻转",
+      "suggestion": "离场"
+    },
+    {
+      "risk": "商业化不及预期",
+      "source": "产品销量、收入数据、用户增长",
+      "trigger_prompt": "判断以下信号是否构成'商业化不及预期'风险：\n- 产品销量连续低于预期\n- 收入增速大幅放缓\n- 用户增长停滞\n输出：true/false + 理由",
+      "action": "降低商业化进度分数 → 降低 logic_strength",
+      "suggestion": "减仓"
+    },
+    {
+      "risk": "监管限制技术应用",
+      "source": "政策文件、监管表态",
+      "trigger_prompt": "判断以下信号是否构成'监管限制技术应用'风险：\n- 监管文件限制技术应用\n- 监管表态趋严\n- 审批被拒或延迟\n输出：true/false + 理由",
+      "action": "标记监管风险 → 降低 logic_strength",
+      "suggestion": "减仓"
+    },
+    {
+      "risk": "竞争者技术超越",
+      "source": "竞品发布、专利对比",
+      "trigger_prompt": "判断以下信号是否构成'竞争者技术超越'风险：\n- 竞品性能显著优于现有技术\n- 竞争者获得关键专利\n- 技术领先地位丧失\n输出：true/false + 理由",
+      "action": "降低技术领先分数 → 降低 logic_strength",
+      "suggestion": "减仓"
+    },
+    {
+      "risk": "技术被快速迭代",
+      "source": "新版本发布、性能提升数据",
+      "trigger_prompt": "判断以下信号是否构成'技术被快速迭代'风险：\n- 竞争者快速发布新版本\n- 性能提升幅度超预期\n- 技术壁垒被突破\n输出：true/false + 理由",
+      "action": "降低技术壁垒分数 → 降低 logic_strength",
+      "suggestion": "观察"
+    }
+  ]
+}

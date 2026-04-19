@@ -1,0 +1,41 @@
+{
+  "logic_type": "流动性",
+  "version": 1,
+  "risk_factors": [
+    {
+      "risk": "流动性收紧",
+      "source": "央行操作（MLF/SLF/逆回购）、利率上升",
+      "trigger_prompt": "判断以下信号是否构成'流动性收紧'风险：\n- 央行连续净回笼资金\n- DR007 利率快速上行超过 50BP\n- MLF/SLF 利率上调\n输出：true/false + 理由",
+      "action": "直接降低流动性分数 → 可能触发翻转",
+      "suggestion": "离场"
+    },
+    {
+      "risk": "资金转向其他资产",
+      "source": "资金流向数据、跨市场比较",
+      "trigger_prompt": "判断以下信号是否构成'资金转向其他资产'风险：\n- 连续 5 日资金净流出\n- 其他资产收益率显著更高\n- 风险溢价大幅走阔\n输出：true/false + 理由",
+      "action": "降低资金流入预期 → 降低 logic_strength",
+      "suggestion": "减仓"
+    },
+    {
+      "risk": "外资大幅流出",
+      "source": "北向资金数据、汇率变动",
+      "trigger_prompt": "判断以下信号是否构成'外资大幅流出'风险：\n- 北向资金连续 5 日净流出超 100 亿\n- 汇率快速贬值\n- 外资持仓占比大幅下降\n输出：true/false + 理由",
+      "action": "降低外资维度分数 → 降低 logic_strength",
+      "suggestion": "减仓"
+    },
+    {
+      "risk": "信用环境恶化",
+      "source": "社融数据、信用利差、违约事件",
+      "trigger_prompt": "判断以下信号是否构成'信用环境恶化'风险：\n- 社融数据大幅低于预期\n- 信用利差快速走阔\n- 违约事件频发\n输出：true/false + 理由",
+      "action": "降低信用扩张预期 → 降低 logic_strength",
+      "suggestion": "离场"
+    },
+    {
+      "risk": "汇率剧烈波动",
+      "source": "汇率数据、外汇储备",
+      "trigger_prompt": "判断以下信号是否构成'汇率剧烈波动'风险：\n- 汇率单周波动超过 2%\n- 外汇储备大幅下降\n- 跨境资本异常流动\n输出：true/false + 理由",
+      "action": "标记外部流动性风险 → 降低 logic_strength",
+      "suggestion": "减仓"
+    }
+  ]
+}
