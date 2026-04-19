@@ -528,3 +528,40 @@ class ConstraintCheck(Base):
 
     def __repr__(self) -> str:
         return f"<ConstraintCheck(id={self.id}, stock_code={self.stock_code}, date={self.snapshot_date}, limit_status={self.limit_status}, suspended={self.is_suspended})>"
+
+
+class HoldDecision(Base):
+    """Daily hold/sell/reduce decision for a stock.
+
+    Table: hold_decisions
+    EXEC-04: Stop-Loss and Hold Decision Rules
+    Stores daily decision output from HoldDecisionMaker service.
+    """
+
+    __tablename__ = "hold_decisions"
+
+    id = Column(Integer, primary_key=True, autoincrement=True, comment="主键 ID")
+    stock_code = Column(String(20), nullable=False, index=True, comment="股票代码")
+    snapshot_date = Column(Date, nullable=False, index=True, comment="快照日期")
+
+    # Position info
+    current_position = Column(Numeric(7, 4), nullable=True, comment="当前持仓数量")
+    action = Column(String(20), nullable=True, comment="决策动作 (hold/sell/reduce)")
+    recommended_position = Column(Numeric(7, 4), nullable=True, comment="推荐持仓数量")
+    action_reason = Column(String(500), nullable=True, comment="决策原因")
+
+    # Price info
+    entry_price = Column(Numeric(10, 4), nullable=True, comment="建仓均价")
+    current_price = Column(Numeric(10, 4), nullable=True, comment="当前价格")
+    pnl_pct = Column(Numeric(7, 4), nullable=True, comment="盈亏百分比")
+
+    created_at = Column(DateTime, nullable=False, default=func.now(), comment="创建时间")
+
+    __table_args__ = (
+        UniqueConstraint("stock_code", "snapshot_date", name="uq_hold_decisions_stock_date"),
+        Index("ix_hold_decisions_stock_code", "stock_code"),
+        Index("ix_hold_decisions_date", "snapshot_date"),
+    )
+
+    def __repr__(self) -> str:
+        return f"<HoldDecision(id={self.id}, stock_code={self.stock_code}, date={self.snapshot_date}, action={self.action})>"
