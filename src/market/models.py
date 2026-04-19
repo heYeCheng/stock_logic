@@ -15,6 +15,7 @@ from sqlalchemy import (
     DateTime,
     Numeric,
     Enum,
+    Text,
     UniqueConstraint,
     Index,
     func,
