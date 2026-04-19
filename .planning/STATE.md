@@ -31,7 +31,7 @@ Plan: 13 of 13 planning complete
 Status: Ready for execution
 Last activity: 2026-04-19 — Phase 4 Market Layer plans created (13 plans)
 
-Progress: [████████████░] 42% (21/48 plans complete)
+Progress: [████████████░] 43% (21/48 plans complete)
 
 ## Performance Metrics
 
@@ -48,7 +48,7 @@ Progress: [████████████░] 42% (21/48 plans complete)
 | 1. Infrastructure | 4/4 | 4 | ✅ Complete |
 | 2. Macro Environment | 4/4 | 4 | ✅ Complete |
 | 3. Logic Layer | 6/6 | 6 | ✅ Complete |
-| 4. Market Layer | 13/13 | 13 | Plans created |
+| 4. Market Layer | 1/13 | 13 | STOCK-05 complete |
 | 5. Execution | 0/4 | 4 | - |
 | 6. Web UI | 0/4 | 4 | - |
 
@@ -61,7 +61,7 @@ Progress: [████████████░] 42% (21/48 plans complete)
 
 ### Decisions
 
-None yet — roadmap just created.
+- STOCK-05: Technical weights MA (0.3), Volume (0.25), RSI (0.25), MACD (0.2); Sentiment weights limit-ups (0.4), dragon (0.35), flow (0.25)
 
 ### Pending Todos
 
